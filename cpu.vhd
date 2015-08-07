@@ -22,9 +22,11 @@ entity cpu is
     nPRD : out std_logic;
     nPWR : out std_logic;
     nPERQ : out std_logic;
-    IOAD : out std_logic_vector(1 downto 0);
-    IODB : inout std_logic_vector(7 downto 0);
-
+    K0 : in std_logic_vector(7 downto 0);
+    K1 : in std_logic_vector(7 downto 0);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+    K2 : in std_logic_vector(7 downto 0);
+    K3 : in std_logic_vector(7 downto 0);
+    
     ir : out std_logic_vector(15 downto 0) ;
 
     tABUS : out std_logic_vector(15 downto 0);
@@ -36,6 +38,9 @@ entity cpu is
     tnBLE : out std_logic
   );
 
+end entity; -- cpu
+
+architecture cpu_b of cpu is
     signal tmpABUS :  std_logic_vector(15 downto 0);
     signal tmpnMREQ :  std_logic;
     signal tmpnRD :  std_logic;
@@ -45,9 +50,8 @@ entity cpu is
     signal tmpnPRD :  std_logic;
     signal tmpnPWR :  std_logic;
     signal tmpnPERQ :  std_logic;
-end entity; -- cpu
-
-architecture cpu_b of cpu is
+    signal IODB : std_logic_vector(7 downto 0) ;	 
+    signal IOAD : std_logic_vector(1 downto 0) ;
 component fetch is 
     port (CLK: in std_logic;
         RST: in std_logic;
@@ -104,16 +108,20 @@ component mem is
 end component;
 
 component xmem is
-    port (CLK : in std_logic;
-		  code : in std_logic_vector(3 downto 0);
-        cxaddress : in std_logic_vector(1 downto 0);
+    port (
+        clk : in std_logic;
+          code : in std_logic_vector(3 downto 0);
         cxdataout : out std_logic_vector(7 downto 0);
         cxdatain : in std_logic_vector(7 downto 0);
+        cxaddress : in std_logic_vector(1 downto 0);
+        xdataout : out std_logic_vector(7 downto 0) ;
         xwe : out std_logic;
         xre : out std_logic;
-        xaddress : out std_logic_vector(1 downto 0);
-        xdata : inout std_logic_vector(7 downto 0);
-        xe : out std_logic);
+        xe : out std_logic;
+    K0 : in std_logic_vector(7 downto 0);
+    K1 : in std_logic_vector(7 downto 0);
+    K2 : in std_logic_vector(7 downto 0);
+    K3 : in std_logic_vector(7 downto 0));
 end component;
 
 component newpc is
@@ -202,9 +210,12 @@ xmemmap : xmem port map(
 		  cxdatain => wvalA,
         xwe => tmpnPWR,
         xre => tmpnPRD,
-        xaddress => IOAD,
-        xdata => IODB,
-        xe => tmpnPERQ
+        xdataout => DBUS(7 downto 0),
+        xe => tmpnPERQ,
+        k1 => k1,
+        k2 => k2,
+        k3 => k3,
+        k0 => k0
     );
 newpcmap : newpc port map(
         vala => wvala,
@@ -233,3 +244,22 @@ tnBLE <= tmpnBLE;
 
 ir <= widata;
 end architecture; -- arch
+
+
+-- r7 <= 00
+-- r0 <= 11
+-- r1 <= 22
+-- add r1, r0
+-- sub r1, r0
+-- mov r2, r1
+-- sta r0, 0080
+-- r7 <= 01
+-- sta r0, 0100
+-- lda r3, 0100
+-- r7 <= 00
+-- in r0, 00
+-- out r0, 00
+-- jz r5, 000f
+-- 0000
+-- jz r0, 0000
+-- jmp 0000

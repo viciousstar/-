@@ -18,7 +18,6 @@ ARCHITECTURE behavior OF xramtest IS
          cxdatain : IN  std_logic_vector(7 downto 0);
          xwe : OUT  std_logic;
          xre : OUT  std_logic;
-         xaddress : OUT  std_logic_vector(1 downto 0);
          xdata : INOUT  std_logic_vector(7 downto 0);
          xe : OUT  std_logic
         );

@@ -25,13 +25,10 @@ tcode <= ti(15 downto 12);
 -- judge if we need X and two reg
 needtworeg <= '1' when (tcode = IADD or tcode = ISUB or tcode = IMOV) else
     '0';
-valc <=  ti(7 downto 0) when needtworeg = '0' else
-    "ZZZZZZZZ";
-ra <= ti(7 downto 5) when needtworeg = '1' else
-    ti(11 downto 9) when (tcode /= IJMP) else
-        "ZZZ";
-rb <= ti(4 downto 2) when needtworeg = '1' else
-    "ZZZ";
+valc <=  ti(7 downto 0);
+ra <= ti(6 downto 4) when needtworeg = '1' else
+    ti(10 downto 8);
+rb <= ti(2 downto 0) when needtworeg = '1';
 code <= tcode;
 end Behavioral;
 

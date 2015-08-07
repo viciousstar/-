@@ -54,8 +54,6 @@ if (clk = '0') then
         mre <= '1';
         me  <= '1';
         mdata <= "ZZZZZZZZZZZZZZZZ";
-        ddataout <= "ZZZZZZZZ";
-        maddress <= "ZZZZZZZZZZZZZZZZ";
 	 nBHE <= '1';
 	 nBLE <= '1';
     end if;
@@ -63,7 +61,6 @@ else
     mwe <= '1';    
     mre <= '0';
     me  <= '0';
-	 ddataout <= "ZZZZZZZZ";
     mdata <= "ZZZZZZZZZZZZZZZZ";
     idata <= mdata;
     maddress <= iaddress;
@@ -71,6 +68,9 @@ else
 	 nBLE <= '0';
 end if;
 end process;
+
+
+
 end mem_b;
 
 

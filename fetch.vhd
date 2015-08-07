@@ -30,7 +30,7 @@ begin
         -- reset
     elsif(CLK'event and CLK = '1') then
         tpc <= pc;
-		  valp <= pc + "0000000000000010";
+		  valp <= pc + "0000000000000001";
     end if;
 end process;
 -- fetch pc

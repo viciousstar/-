@@ -21,10 +21,9 @@ architecture alu_b of alu is
 begin
 vale <="00000000" & (vala + valb) when code = IADD else
     "00000000" & (vala - valb)  when code = ISUB else
-        "00000000" & (valb + "00000000") when code = IMOV else
+        "00000000" & valb when code = IMOV else
             "00000000" & (valc + "00000000") when code = IMVI or code = IIN or code = IOUT else
-                valb & valc when code = ISTA or code = ILDA or code = IJZ or code = IJMP else
-                    "ZZZZZZZZZZZZZZZZ";
+                valb & valc when code = ISTA or code = ILDA or code = IJZ or code = IJMP;
 
 end alu_b;
 
