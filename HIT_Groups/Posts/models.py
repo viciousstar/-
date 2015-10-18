@@ -1,4 +1,5 @@
 from django.db import models
+from HIT_Groups.Users.models import User
 
 
 # Create your models here.
@@ -6,16 +7,17 @@ from django.db import models
 class Post(models.Model):
     text = models.TextField()
     image = models.ForeignKey(Image)
-    author = models.ForeignKey(Users.User)
-    liker = models.ManyToManyField(Users.User)
+    author = models.ForeignKey(models.User)
+    user_like = models.ManyToManyField(models.User)
     tag = models.ManyToManyField(Tag)
-    mentioned_user = models.ManyToManyField(Users.User)
-    starred = models.ManyToManyField(Users.User)
+    user_mentioned = models.ManyToManyField(models.User)
+    starred = models.ManyToManyField(models.User)
 
 
 class Image(models.Model):
     name = models.CharField()
     image = models.ImageField()
+    post = models.ForeignKey(Post)
 
 
 class Reply(Post):

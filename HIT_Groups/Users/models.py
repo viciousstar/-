@@ -1,6 +1,7 @@
 from django.db import models
-from Groups.models import Groups
 from django.contrib.auth.models import AbstractUser
+from Groups.models import Group
+
 # Create your models here.
 class MyUser(AbstractUser):
     """
@@ -11,6 +12,8 @@ class MyUser(AbstractUser):
         tag
     """
     groups = models.ManyToManyField(Group, through = "UsersAndGroups")
+    # password
+    # headimage
 
 class UsersAndGroups(models.Model):
     """
@@ -20,10 +23,9 @@ class UsersAndGroups(models.Model):
         raw level authority
     """
 
-    user_id = models.ForeignKey(User) 
+    user_id = models.ForeignKey(User)
     group_id = models.ForeignKey(Group)
-    user_role = models.CharField(choices = 
-                                (('Creator', 'Creator'),
-                                    ("Admin", "Admin"),
-                                    ("User", "User")), default="User")
-
+    user_role = models.CharField(choices=
+                                 (('Creator', 'Creator'),
+                                  ("Admin", "Admin"),
+                                  ("User", "User")), default="User")

@@ -1,0 +1,9 @@
+{% if groups_index %}
+    <ul>
+    {% for group in groups_index %}
+        <li><a href="{% url 'Groups:index' group.id %}">{{ group.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No groups are available.</p>
+{% endif %}
