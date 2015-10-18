@@ -1,7 +1,7 @@
 {% if groups_index %}
     <ul>
     {% for group in groups_index %}
-        <li><a href="/GroupsIndex/{{ group.id }}/">{{ group.name }}</a></li>
+        <li><a href="{% url 'Groups:index' group.id %}">{{ group.name }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
