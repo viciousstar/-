@@ -38,6 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Groups',
+    'Users',
+    'Posts',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -103,4 +105,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 ##custom own user
-AUTH_USER_MODEL = 'Users.models.MyUser'
+AUTH_USER_MODEL = 'Users.MyUser'

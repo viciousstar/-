@@ -11,7 +11,7 @@ class MyUser(AbstractUser):
         description
         tag
     """
-    groups = models.ManyToManyField(Group, through = "UsersAndGroups")
+    my_groups = models.ManyToManyField(Group, through = "UsersAndGroups")
     # password
     # headimage
 
@@ -23,9 +23,9 @@ class UsersAndGroups(models.Model):
         raw level authority
     """
 
-    user_id = models.ForeignKey(User)
+    user_id = models.ForeignKey(MyUser)
     group_id = models.ForeignKey(Group)
     user_role = models.CharField(choices=
                                  (('Creator', 'Creator'),
                                   ("Admin", "Admin"),
-                                  ("User", "User")), default="User")
+                                  ("User", "User")), default="User", max_length = 20)
