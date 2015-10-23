@@ -6,7 +6,7 @@ from Groups.models import Group
 class MyUser(AbstractUser):
     """
     Description: User Description
-    
+
     Todo:
         description
         tag
@@ -18,7 +18,7 @@ class MyUser(AbstractUser):
 class UsersAndGroups(models.Model):
     """
     Description: For many to many relationship and User Authority Description
-    
+
     Todo:
         raw level authority
     """
