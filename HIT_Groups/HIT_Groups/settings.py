@@ -115,3 +115,8 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
     )
 }
+
+# common static
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)
