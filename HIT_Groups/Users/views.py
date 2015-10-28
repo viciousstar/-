@@ -13,6 +13,7 @@ from rest_framework.renderers import (TemplateHTMLRenderer,
                                       BrowsableAPIRenderer)
 from rest_framework.decorators import api_view
 from Users.serializers import UserSerializer
+from Users.forms import MyUserForm
 # Create your views here.
 
 
@@ -69,3 +70,14 @@ def login(request):
 def logout(request):
     django_logout(request)
     return HttpResponseRedirect("/")
+
+def signup(request):
+    if request.method == 'POST':
+        form = MyUserForm(request.POST)
+        if form.is_valid():
+            user = MyUser.objects.create_user(request.POST["username"], request.POST["email"], request.POST["password"])
+            return HttpResponseRedirect("/")
+    else:
+        form = MyUserForm()
+
+    return render(request, 'Users/signup.html', {'form': form})

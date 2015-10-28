@@ -10,7 +10,8 @@ urlpatterns = [
     url(r'^users/(?P<pk>[0-9]+)/$', user_views.UserDetail.as_view()),
     url(r"^$", user_views.root),
     url(r"^login/$", user_views.login),
-    url(r"^logout/$", user_views.logout)
+    url(r"^logout/$", user_views.logout),
+    url(r"^signup/$", user_views.signup),
 
 ]
 
