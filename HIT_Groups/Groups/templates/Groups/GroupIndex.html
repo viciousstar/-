@@ -1,9 +1,14 @@
-{% if groups_index %}
-    <ul>
-    {% for group in groups_index %}
-        <li><a href="{% url 'Groups:index' group.id %}">{{ group.name }}</a></li>
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'Groups/style.css' %}"/>
+
+{% if group_list %}
+<ul>
+    {% for group in group_list %}
+    <li><a href="{% url 'Groups:GroupDetail' group.id %}">{{ group.name }}</a></li>
+    <a href="{% url 'Groups:GroupDelete' group.id %}">删除这个圈子</a>
     {% endfor %}
-    </ul>
+</ul>
+<a href="{% url 'Groups:GroupCreate' %}">创建一个圈子</a></li>
 {% else %}
-    <p>No groups are available.</p>
+<p>No groups are available.</p>
 {% endif %}
