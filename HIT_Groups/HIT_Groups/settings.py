@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'Groups',
     'Users',
     'Posts',
+    'rest_framework',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -104,5 +105,18 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-##custom own user
+# custom own user
 AUTH_USER_MODEL = 'Users.MyUser'
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        # "rest_framework.renderers.HTMLFormRenderer",
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    )
+}
+
+# common static
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static"),
+)

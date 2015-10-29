@@ -11,3 +11,4 @@ urlpatterns = [
     url(r'^create/$',views.GroupCreate,name="GroupCreate"),
     url(r'^(?P<group_id>[0-9]+)/delete/$',views.GroupDelete,name="GroupDelete")
 ]
+
