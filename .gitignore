@@ -1,7 +1,6 @@
 *.sublime-project
 hit_groups.sublime-workspace
 *.pyc
-/HIT_Groups/.idea
-/SE-Project-HIT/.idea
+.idea
 *.sqlite3
 
