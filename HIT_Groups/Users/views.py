@@ -45,7 +45,13 @@ class UserDetail(generics.RetrieveUpdateAPIView):
 
 @api_view(('GET',))
 def root(request, format=None):
-    return render(request, "Users/index.html")
+    groups = []
+    posts = []
+    if request.user.is_authenticated():
+        groups = request.user.my_groups.all()
+        for p in groups:
+            posts.extend(p.post_set.all())
+    return render(request, "Users/index.html", {"groups": groups, "posts": posts})
 
 
 @api_view(("GET", "POST"))

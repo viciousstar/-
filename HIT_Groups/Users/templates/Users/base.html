@@ -24,7 +24,7 @@
 
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
+        <div class="container" style="margin-left: 0; margin-right: 0; width: auto">
             <div class="navbar-header">
                 <a class="navbar-brand" href="/">HIT Groups</a>
             </div>
@@ -50,11 +50,11 @@
             </div>
         </div>
     </nav>
-    <div id="content" class="container">
-        {% block content %}
+    {% block content %}
+        <div id="content" class="container">
             <h1 class="defaulth1">圣·马家沟男子技校欢迎您</h1>
-        {% endblock content %}
-    </div>
+        </div>
+    {% endblock content %}
     <script src="{% static "js/jquery.min.js" %}"></script>
     <script src="{% static "js/bootstrap.min.js" %}"></script>
 </body>
