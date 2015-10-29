@@ -9,13 +9,14 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ('Groups', '0002_group_image'),
     ]
 
     operations = [
         migrations.CreateModel(
             name='Image',
             fields=[
-                ('id', models.AutoField(serialize=False, auto_created=True, verbose_name='ID', primary_key=True)),
+                ('id', models.AutoField(auto_created=True, verbose_name='ID', primary_key=True, serialize=False)),
                 ('name', models.CharField(max_length=20)),
                 ('image', models.ImageField(upload_to='')),
             ],
@@ -23,22 +24,21 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Post',
             fields=[
-                ('id', models.AutoField(serialize=False, auto_created=True, verbose_name='ID', primary_key=True)),
+                ('id', models.AutoField(auto_created=True, verbose_name='ID', primary_key=True, serialize=False)),
                 ('text', models.TextField()),
             ],
         ),
         migrations.CreateModel(
             name='Tag',
             fields=[
-                ('id', models.AutoField(serialize=False, auto_created=True, verbose_name='ID', primary_key=True)),
+                ('id', models.AutoField(auto_created=True, verbose_name='ID', primary_key=True, serialize=False)),
                 ('name', models.CharField(max_length=20)),
-                ('parent', models.ForeignKey(to='Posts.Tag')),
             ],
         ),
         migrations.CreateModel(
             name='Reply',
             fields=[
-                ('post_ptr', models.OneToOneField(serialize=False, auto_created=True, to='Posts.Post', parent_link=True, primary_key=True)),
+                ('post_ptr', models.OneToOneField(auto_created=True, primary_key=True, serialize=False, parent_link=True, to='Posts.Post')),
                 ('reply', models.ForeignKey(to='Posts.Reply', related_name='replyofreply')),
             ],
             bases=('Posts.post',),
@@ -50,13 +50,13 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='post',
-            name='starred',
-            field=models.ManyToManyField(related_name='postofstarred', to=settings.AUTH_USER_MODEL),
+            name='group',
+            field=models.ForeignKey(to='Groups.Group'),
         ),
         migrations.AddField(
             model_name='post',
-            name='tag',
-            field=models.ManyToManyField(related_name='postoftag', to='Posts.Tag'),
+            name='starred',
+            field=models.ManyToManyField(related_name='postofstarred', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='post',
