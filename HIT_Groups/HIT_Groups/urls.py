@@ -5,6 +5,7 @@ from django.contrib.auth import views
 
 urlpatterns = [
     url(r'^groups/', include('Groups.urls', namespace="Groups")),
+    url(r'^groups/(?P<group_id>[0-9]+)/posts/', include('Posts.urls', namespace='Posts')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^users/$', user_views.UserList.as_view()),
     url(r'^users/(?P<pk>[0-9]+)/$', user_views.UserDetail.as_view()),
