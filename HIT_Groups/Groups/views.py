@@ -48,11 +48,11 @@ def GroupCreate(request):
             description = form.cleaned_data["description"]
             tag = form.cleaned_data["tag"]
             permit = form.cleaned_data["permit"]
-            grouptest = Group.objects.get(pk=2)
+            grouptest = Group.objects.get(pk=1)
             group = Group(name=name, create_time=timezone.now(), update_time=timezone.now(), image=grouptest.image,
                           description=description, tag=tag, permit=permit)
             group.save()
-            uag = UsersAndGroups.objects.create(user_id = request.user.id,group_id = group.id,user_role = 'Creator')
+            uag = UsersAndGroups.objects.create(user_id = request.user,group_id = group,user_role = 'Creator')
             uag.save()
             return HttpResponseRedirect('/groups/')
     else:
