@@ -17,7 +17,7 @@ class Group(models.Model):
 class ContactForm(ModelForm):
     class Meta:
         model = Group
-        fields = ('name','image','description','tag','permit')
+        fields = ('name','description','tag','permit')
 
 
 

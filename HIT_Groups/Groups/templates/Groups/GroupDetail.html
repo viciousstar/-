@@ -1,11 +1,12 @@
-{% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% static 'Groups/style.css' %}"/>
-
+{% extends "Users/base.html" %}
+{% block content %}
 <h1>{{ group.name }}</h1>
 <li><a href="{% url 'Groups:GroupModify' group.id %}">修改这个圈子</a></li>
 
-<li>the create time is    {{group.create_time}}</li>
-<li>the latest update time is    {{group.update_time}}</li>
-<li>the group description is    {{group.description}}</li>
-<li>the group's tags are    {{group.tag}}</li>
+<li>the create time is {{group.create_time}}</li>
+<li>the latest update time is {{group.update_time}}</li>
+<li>the group description is {{group.description}}</li>
+<li>the group's tags are {{group.tag}}</li>
 <li>{{group.permit}}</li>
+{% endblock content %}
+

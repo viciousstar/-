@@ -1,7 +1,5 @@
-{% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% static 'Groups/style.css' %}"/>
-
-
+{% extends "Users/base.html" %}
+{% block content %}
 <h1>{{ group.name }}</h1>
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
@@ -16,3 +14,4 @@
 </table>
 <p class="submit"><input type="submit" name="submit" id="submit" class="button-primary" value="修改"  /></p>
 </form>
+{% endblock content %}
