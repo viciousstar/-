@@ -1,6 +1,7 @@
+{% extends "Users/base.html" %}
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static 'Groups/style.css' %}"/>
-
+{% block content %}
 {% if group_list %}
 <ul>
     {% for group in group_list %}
@@ -12,3 +13,5 @@
 {% else %}
 <p>No groups are available.</p>
 {% endif %}
+
+{% endblock content %}

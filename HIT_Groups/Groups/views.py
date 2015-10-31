@@ -5,6 +5,8 @@ from django.utils import timezone
 
 from .models import Group, ContactForm
 
+from Users.models import UsersAndGroups
+
 
 def GroupsIndex(request):
     group_list = Group.objects.order_by('-update_time')
@@ -46,17 +48,19 @@ def GroupCreate(request):
             description = form.cleaned_data["description"]
             tag = form.cleaned_data["tag"]
             permit = form.cleaned_data["permit"]
-            grouptest=Group.objects.get(pk=2)
+            grouptest = Group.objects.get(pk=2)
             group = Group(name=name, create_time=timezone.now(), update_time=timezone.now(), image=grouptest.image,
                           description=description, tag=tag, permit=permit)
             group.save()
+            uag = UsersAndGroups.objects.create(user_id = request.user.id,group_id = group.id,user_role = 'Creator')
+            uag.save()
             return HttpResponseRedirect('/groups/')
     else:
         form = ContactForm()  # 第一次生成的form里面内容的格式
     return render(request, 'Groups/GroupCreate.html', {'form': form})
 
 
-def GroupDelete(request,group_id):
+def GroupDelete(request, group_id):
     group = Group.objects.get(pk=group_id)
     group.delete()
     return render(request, 'Groups/GroupDelete.html')
