@@ -11,5 +11,6 @@
 {%for u in group.myuser_set.all %}
 <li>{{u.username}}</li>
 {%endfor%}
+<li>permit or not ? {{group.permit}}</li>
 {% endblock content %}
 

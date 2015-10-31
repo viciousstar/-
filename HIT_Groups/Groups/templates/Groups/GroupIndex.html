@@ -9,9 +9,9 @@
     <a href="{% url 'Groups:GroupDelete' group.id %}">删除这个圈子</a>
     {% endfor %}
 </ul>
-<a href="{% url 'Groups:GroupCreate' %}">创建一个圈子</a></li>
 {% else %}
 <p>No groups are available.</p>
 {% endif %}
+<a href="{% url 'Groups:GroupCreate' %}">创建一个圈子</a></li>
 
 {% endblock content %}
