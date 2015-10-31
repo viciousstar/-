@@ -10,12 +10,13 @@ class Tag(models.Model):
 
 class Post(models.Model):
     text = models.TextField()
-    author = models.ForeignKey(MyUser, related_name = 'postofauthor')
-    user_like = models.ManyToManyField(MyUser, related_name = 'userlike')
+    author = models.ForeignKey(MyUser, related_name = 'post.author')
+    user_like = models.ManyToManyField(MyUser, related_name = 'post.user_like')
     # tag = models.ManyToManyField(Tag, related_name = 'postoftag')
-    user_mentioned = models.ManyToManyField(MyUser, related_name = 'postofusermentioned')
-    starred = models.ManyToManyField(MyUser, related_name = 'postofstarred')
-    group = models.ForeignKey(Group)
+    user_mentioned = models.ManyToManyField(MyUser, related_name = 'post.user_mentioned')
+    starred = models.ManyToManyField(MyUser, related_name = 'post.starred')
+    group = models.ForeignKey(Group, related_name = 'post.group')
+
 
 class Image(models.Model):
     name = models.CharField(max_length = 20)
@@ -23,6 +24,10 @@ class Image(models.Model):
     post = models.ForeignKey(Post)
 
 
+
 class Reply(Post):
-    reply = models.ForeignKey('self', related_name = 'replyofreply')
+    reply = models.ForeignKey('self', related_name = 'reply.reply')
+
+
+
 
