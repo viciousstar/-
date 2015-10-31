@@ -6,7 +6,7 @@ class Group(models.Model):
     name = models.CharField(max_length=200)
     create_time = models.DateTimeField('date created')
     update_time = models.DateTimeField('date updated')
-    image = models.ImageField()
+    #image = models.ImageField()
     description = models.TextField()
     tag = models.CharField(max_length=200)
     permit = models.BooleanField()
