@@ -1,0 +1,16 @@
+{% extends "Users/base.html" %}
+{% block content %}
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'Posts:post_create.html'%}" method="post">
+    {% csrf_token %}
+    <table class="form-table">
+    {% for field in form %}
+         {{ field.label_tag }}:{{ field }}
+         {{ field.errors }}<br />
+    {% endfor %}
+</table>
+<p class="submit"><input type="submit" name="submit" id="submit" class="button-primary" value="创建"  /></p>
+</form>
+
+{% endblock content %}
