@@ -8,5 +8,9 @@
 <li>the group description is {{group.description}}</li>
 <li>the group's tags are {{group.tag}}</li>
 <li>{{group.permit}}</li>
+{%for u in group.myuser_set.all %}
+<li>{{u.username}}</li>
+{%endfor%}
+<li>permit or not ? {{group.permit}}</li>
 {% endblock content %}
 

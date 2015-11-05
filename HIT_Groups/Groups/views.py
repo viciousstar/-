@@ -5,8 +5,6 @@ from django.utils import timezone
 
 from .models import Group, ContactForm
 
-from Users.models import UsersAndGroups
-
 
 def GroupsIndex(request):
     group_list = Group.objects.order_by('-update_time')
@@ -52,6 +50,8 @@ def GroupCreate(request):
             group = Group(name=name, create_time=timezone.now(), update_time=timezone.now(), image=grouptest.image,
                           description=description, tag=tag, permit=permit)
             group.save()
+            uag = UsersAndGroups.objects.create(user_id = request.user,group_id = group,user_role = 'Creator')
+            uag.save()
             return HttpResponseRedirect('/groups/')
     else:
         form = ContactForm()  # 第一次生成的form里面内容的格式
