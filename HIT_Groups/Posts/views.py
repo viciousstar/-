@@ -32,7 +32,7 @@ def post_create(request, group_id):
 def post_delete(request, group_id, post_id):
     post = Post.objects.get(pk=post_id)
     post.delete()
-    return render(request, 'Posts/post_delete.html')
+    return render(request, 'Posts/post_delete.html',{'group_id':group_id})
 
 
 def post_reply(request, group_id, post_id):
@@ -45,9 +45,10 @@ def post_update(request, group_id, post_id):
         form = PostForm(request.POST)
         if form.is_valid():
             post.text = form.cleaned_data['text']
+            post.save()
             return HttpResponseRedirect('/groups/' + group_id + '/posts/')
     else:
         form = PostForm()
-    return render(request, 'Posts/post_update.html', {'form': form, 'post': post})
+    return render(request, 'Posts/post_update.html', {'form': form, 'group_id':group_id,'post_id': post_id})
 
 
