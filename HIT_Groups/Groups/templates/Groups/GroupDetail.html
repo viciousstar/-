@@ -12,5 +12,10 @@
 <li>{{u.username}}</li>
 {%endfor%}
 <li>permit or not ? {{group.permit}}</li>
+
+<li><a href="{% url 'Posts:post_index' group.id %}">查看该圈子的全部动态</a></li>
+<li><a href="{% url 'Posts:post_create' group.id %}">为该圈子创建一个动态</a></li>
 {% endblock content %}
+
+
 

@@ -48,6 +48,6 @@ def post_update(request, group_id, post_id):
             return HttpResponseRedirect('/groups/' + group_id + '/posts/')
     else:
         form = PostForm()
-    return render(request, 'Posts/post_create.html', {'form': form, 'post': post})
+    return render(request, 'Posts/post_update.html', {'form': form, 'post': post})
 
 
