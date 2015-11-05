@@ -2,25 +2,21 @@
 {% load staticfiles %}
 <link rel="stylesheet" type="text/css" href="{% static 'Posts/style.css' %}"/>
 {% block content %}
-<a href="{{ url 'Posts:post_create' }}">Create a new post HERE!</a>
+<a href="{% url 'Posts:post_create' group_id %}">Create a new post HERE!</a>
 {% if post_list %}
-<table>
+<table class="table" align="center">
+	<tr>
+		<p>All posts in the current group:</p>
+	</tr>
     {% for post in post_list %}
-    	<tr>{{ post.author }}</tr> 
-	    <tr>{{ post.text }}</tr>
+    	<tr>
+    		<td>{{ post.author }}</td>
+   			<td>{{ post.text }}</td>
+    	</tr>
 	    <tr>
-	    	{% for user in post.user_like_set.all()%}
-	    		<td><a href="">{{ user.username }}</a></td>
-	    	{% endfor %}
-	    </tr>
-	    <tr>
-	    	{% for user in post.user_mentioned_set.all()%}
-	    		<td><a href="">{{ user.username }}</a></td>
-	    	{% endfor %}
-	    </tr>
-	    <tr>
-	    	<td><a href="{{ url 'Posts:post_update' post.id}}">Update</a></td>
-	    	<td><a href="{{ url 'Posts:post_delete' post.id}}">Delete</a></td>
+	    	<td><a href="{% url 'Posts:post_update' group_id post.id%}">Update</a></td>
+	    	<td><a href="{% url 'Posts:post_delete' group_id post.id%}">Delete</a></td>
+	    	<td><a href="{% url 'Posts:post_reply' group_id post.id%}">Reply</a></td>
 	    </tr>
     {% endfor %}
 </table>

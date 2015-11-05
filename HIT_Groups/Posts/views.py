@@ -2,54 +2,52 @@ from django.shortcuts import render, get_list_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 
 from .models import Post
+from Groups.models import Group
 from .forms import PostForm
 
 
 # Create your views here.
 def post_index(request, group_id):
+    print(group_id)
     post_list = get_list_or_404(Post, group=group_id)
-    return render(request, 'Post/post_index', {'post_list': post_list})
+    return render(request, 'Posts/post_index.html', {'post_list': post_list, 'group_id': group_id})
 
 
 def post_create(request, group_id):
     if request.method == 'POST':
         form = PostForm(request.POST)
-        if form.is_vaild():
+        if form.is_valid():
             post = Post(
-                text=request["text"],
+                text=form.cleaned_data["text"],
                 author=request.user if request.user.is_active else None,
-                user_like=[],
-                user_mentioned=[],
-                starred=False,
-                group=group_id
+                group=Group.objects.get(pk=group_id)
                 )
             post.save()
-            return HttpResponseRedirect('/posts/')
+            return HttpResponseRedirect('/groups/' + group_id + '/posts/')
     else:
         form = PostForm()
-    return render(request, 'Posts/post_create', {'form', form})
+    return render(request, 'Posts/post_create.html', {'form': form, 'group_id': group_id})
 
 
-def post_delete(request, post_id):
+def post_delete(request, group_id, post_id):
     post = Post.objects.get(pk=post_id)
     post.delete()
-    return render(request, 'Posts/post_delete')
+    return render(request, 'Posts/post_delete.html')
 
 
-def post_read(request, post_id):
-    post = Post.objects.get(pk=post_id)
-    return render(request, 'Posts/post_read', {'post': post})
+def post_reply(request, group_id, post_id):
+    pass
 
 
-def post_update(request, post_id):
+def post_update(request, group_id, post_id):
     post = Post.objects.get(pk=post_id)
     if request.method == 'POST':
         form = PostForm(request.POST)
-        if form.is_vaild():
-            post.text = request['text']
-            return HttpResponseRedirect('/posts/')
+        if form.is_valid():
+            post.text = form.cleaned_data['text']
+            return HttpResponseRedirect('/groups/' + group_id + '/posts/')
     else:
         form = PostForm()
-    return render(request, 'Posts/post_create', {'form': form, 'post': post})
+    return render(request, 'Posts/post_create.html', {'form': form, 'post': post})
 
 
