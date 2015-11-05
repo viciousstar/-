@@ -6,6 +6,7 @@
 <ul>
     {% for group in group_list %}
     <li><a href="{% url 'Groups:GroupDetail' group.id %}">{{ group.name }}</a></li>
+    <a href="{% url 'Groups:GroupAdd' group.id %}">加入该圈子</a>
     <a href="{% url 'Groups:GroupDelete' group.id %}">删除这个圈子</a>
     {% endfor %}
 </ul>

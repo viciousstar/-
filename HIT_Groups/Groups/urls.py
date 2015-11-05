@@ -9,6 +9,8 @@ urlpatterns = [
     url(r'^(?P<group_id>[0-9]+)/$',views.GroupDetail,name="GroupDetail"),
     url(r'^(?P<group_id>[0-9]+)/modify/$',views.GroupModify,name="GroupModify"),
     url(r'^create/$',views.GroupCreate,name="GroupCreate"),
-    url(r'^(?P<group_id>[0-9]+)/delete/$',views.GroupDelete,name="GroupDelete")
+    url(r'^(?P<group_id>[0-9]+)/delete/$',views.GroupDelete,name="GroupDelete"),
+    url(r'^(?P<group_id>[0-9]+)/add/$',views.AddUser,name="GroupAdd"),
+
 ]
 

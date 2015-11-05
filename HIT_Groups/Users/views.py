@@ -50,7 +50,7 @@ def root(request, format=None):
     if request.user.is_authenticated():
         groups = request.user.my_groups.all()
         for p in groups:
-            posts.extend(p.post_set.all())
+            posts.extend(p.post_group.all())
     return render(request, "Users/index.html", {"groups": groups, "posts": posts})
 
 
