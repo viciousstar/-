@@ -1,0 +1,71 @@
+/*
+ * Globals
+ */
+
+body {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  color: #555;
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6 {
+  margin-top: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  color: #333;
+}
+
+
+
+
+.group-header {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.group-title {
+  margin-top: 30px;
+  margin-bottom: 0;
+  font-size: 60px;
+  font-weight: normal;
+}
+.group-description {
+  font-size: 20px;
+  color: #999;
+}
+
+
+.main {
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+/*
+ * Blog posts
+ */
+
+.post-list {
+  margin-bottom: 60px;
+}
+
+.post-meta {
+  margin-bottom: 20px;
+  color: #999;
+}
+
+
+/*
+ * Footer
+ */
+
+.footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+}
+
+

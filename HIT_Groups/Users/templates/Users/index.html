@@ -1,25 +1,39 @@
 {% extends "Users/base.html" %}
 {% block content %}
-<div id="content" class="container-fluid">
-<div class="row">
-    <div class="col-md-2">
-        <ul class="nav nav-stacked">
-            <li class="navbar-header">
-                <a href="/groups">Your Groups</a>
-            </li>
-            {% for group in groups %}
-            <li><a href="/groups/{{group.id}}"># {{group.name}}</a></li>
-            {% endfor %}
-        </ul>
-    </div>
-    <div class="col-md-10">
-        <div class="row">
-            {% for post in posts %}
-            <li><a href="/posts/{{post.id}}"># {{post.text}}</a></li>
-            {% endfor %}
-
+<div id="content" class="container-fluid main">
+    <div class="row">
+        <div class="col-md-2">
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active">
+                    <a href="#" >All Posts</a>
+                </li>
+                {% for group in groups %}
+                <li><a href="/groups/{{group.id}}"># {{group.name}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-10">
+            <div class="row">
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Current Group <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href= "#">Profile</a></li>
+                        <li><a href="#">Log out</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="post-list">
+                    {% for post in posts %}
+                    <div class="post">
+                        <p>{{post.text}}</p>
+                        <p class="post-meta">January 1, 2014 by <a href="#">Mark</a></p>
+                    </div>
+                    {% endfor %}
+                    <p></p>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 </div>
 {% endblock content %}
