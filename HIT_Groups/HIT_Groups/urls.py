@@ -5,10 +5,9 @@ from django.contrib.auth import views
 
 urlpatterns = [
     url(r'^groups/', include('Groups.urls', namespace="Groups")),
+    url(r'^users/', include('Users.urls', namespace="Users")),
     url(r'^groups/(?P<group_id>[0-9]+)/posts/', include('Posts.urls', namespace='Posts')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^users/$', user_views.UserList.as_view()),
-    url(r'^users/(?P<pk>[0-9]+)/$', user_views.UserDetail.as_view()),
     url(r"^$", user_views.root),
     url(r"^login/$", user_views.login),
     url(r"^logout/$", user_views.logout),
@@ -16,7 +15,3 @@ urlpatterns = [
 
 ]
 
-urlpatterns += [
-    url(r'^api-auth/', include('rest_framework.urls',
-                               namespace='rest_framework')),
-]

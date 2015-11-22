@@ -40,7 +40,6 @@ INSTALLED_APPS = (
     'Groups',
     'Users',
     'Posts',
-    'rest_framework',
 )
 
 MIDDLEWARE_CLASSES = (

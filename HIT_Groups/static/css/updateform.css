@@ -1,0 +1,31 @@
+.form-update{
+    width: 50%;
+    margin: 5% auto;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    color: #555;
+}
+
+.form-group-lg{
+    margin-bottom: 10px;
+}
+
+.form-group-lg label{
+    font-size: 18px;
+}
+
+.form-update button{
+    margin: 10% auto 0 auto;
+    display: block;
+}
+
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6 {
+  margin-top: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  color: #333;
+}

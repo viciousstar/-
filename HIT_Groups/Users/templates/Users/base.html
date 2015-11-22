@@ -10,8 +10,6 @@
     <title>HIT Groups</title>
     <!-- Bootstrap -->
     <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
-    <link href="{% static "css/groups.css" %}" rel="stylesheet">
-
     <style type="text/css" media="screen">
         body {
           padding-top: 50px;
@@ -20,7 +18,18 @@
           text-align: center;
         }
 
+        .footer {
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            text-align: center;
+        }
+
+
     </style>
+    {% block headblock %}
+
+    {% endblock headblock %}
 </head>
 
 <body>
