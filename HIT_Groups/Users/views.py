@@ -50,7 +50,15 @@ def signup(request):
 
     return render(request, 'Users/signup.html', {'form': form})
 
+
 class UserUpdate(UpdateView):
     model = MyUser
     fields = ['username']
     success_url = '/'
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.request.user.can_modify(self.object):
+            return super().post(request, *args, **kwargs)
+        else:
+            return HttpResponse("Sorry, you do not have the permission.")

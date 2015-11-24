@@ -1,5 +1,6 @@
 {% extends "Users/base.html" %}
 {% load staticfiles %}
+{% load usertag %}
 {% block headblock %}
 <link href="{% static "css/updateform.css" %}" rel="stylesheet">
 {% endblock headblock %}
@@ -9,9 +10,11 @@
     <div class="form-update">
         <div class="form-group-lg">
             <label for="username">Username</label>
-            <input type="email" class="form-control" id="username" name="username" placeholder="{{user.username}}">
+            <input type="text" class="form-control" id="username" name="username" placeholder="{{form.username.value}}">
         </div>
+        {% if request.path|is_current_user_profile:user %}
         <button type="submit" class="btn btn-primary">Update</button>
+        {% endif %}
     </div>
 </form>
 {% endblock content %}

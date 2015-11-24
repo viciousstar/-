@@ -11,7 +11,7 @@ class UsersAndGroups(models.Model):
         raw level authority
     """
 
-    user_id = models.ForeignKey(MyUser)
+    user_id = models.ForeignKey("MyUser")
     group_id = models.ForeignKey(Group)
     user_role = models.CharField(choices=
                                  (('Creator', 'Creator'),
@@ -49,4 +49,7 @@ class MyUser(AbstractUser):
             return True
         else:
             return False
+
+    def creator(self):
+        return self
 
