@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_list_or_404
 from django.http import HttpResponse, HttpResponseRedirect
+from django_comments.forms import CommentForm
+from django_comments.models import Comment
 
 from .models import Post
 from Groups.models import Group
@@ -35,8 +37,22 @@ def post_delete(request, group_id, post_id):
     return render(request, 'Posts/post_delete.html',{'group_id':group_id})
 
 
-def post_reply(request, group_id, post_id):
-    pass
+def post_comment(request, group_id, post_id):
+    post = Post.objects.get(pk=post_id)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = Comment(
+                user=request.user if request.user.is_active else None,
+                content_object=post,
+                comment=form.cleaned_data["comment"],
+                name=form.cleaned_data["name"]
+            )
+            comment.save()
+            return HttpResponseRedirect('/groups/' + group_id + '/posts/') 
+    else:        
+        form = CommentForm(post)
+    return render(request, 'Posts/post_comment.html', {'form': form, 'post': post, 'group_id': group_id})
 
 
 def post_update(request, group_id, post_id):

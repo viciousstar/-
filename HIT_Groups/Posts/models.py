@@ -12,22 +12,10 @@ class Post(models.Model):
     text = models.TextField()
     author = models.ForeignKey(MyUser, related_name = 'post_author')
     user_like = models.ManyToManyField(MyUser, related_name = 'post_user_like')
-    # tag = models.ManyToManyField(Tag, related_name = 'postoftag')
+    #tag = models.ManyToManyField(Tag, related_name = 'postoftag')
     user_mentioned = models.ManyToManyField(MyUser, related_name = 'post_user_mentioned')
     starred = models.ManyToManyField(MyUser, related_name = 'post_starred')
     group = models.ForeignKey(Group, related_name = 'post_group')
-
-
-class Image(models.Model):
-    name = models.CharField(max_length = 20)
-    image = models.ImageField()
-    post = models.ForeignKey(Post)
-
-
-
-class Reply(Post):
-    reply = models.ForeignKey('self', related_name = 'reply_reply')
-
-
+    #posted_time = models.DateTimeField()
 
 

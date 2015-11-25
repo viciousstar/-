@@ -22,8 +22,8 @@ def GroupDetail(request, group_id):
 def GroupModify(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
     if request.method == 'POST':
-        form = ContactForm(request.POST)  # 获取Post表单数据
-        if form.is_valid():  # 验证表单
+        form = ContactForm(request.POST) 
+        if form.is_valid():
             name = form.cleaned_data["name"]
             description = form.cleaned_data["description"]
             tag = form.cleaned_data["tag"]
@@ -36,14 +36,14 @@ def GroupModify(request, group_id):
             group.save()
             return HttpResponseRedirect('/groups/' + group_id + '/')
     else:
-        form = ContactForm()  # 第一次生成的form里面内容的格式
+        form = ContactForm()
     return render(request, 'Groups/GroupModify.html', {'form': form, 'group': group})
 
 
 def GroupCreate(request):
     if request.method == 'POST':
-        form = ContactForm(request.POST)  # 获取Post表单数据
-        if form.is_valid():  # 验证表单
+        form = ContactForm(request.POST) 
+        if form.is_valid(): 
             name = form.cleaned_data["name"]
             description = form.cleaned_data["description"]
             tag = form.cleaned_data["tag"]
@@ -56,7 +56,7 @@ def GroupCreate(request):
             uag.save()
             return HttpResponseRedirect('/groups/')
     else:
-        form = ContactForm()  # 第一次生成的form里面内容的格式
+        form = ContactForm()
     return render(request, 'Groups/GroupCreate.html', {'form': form})
 
 

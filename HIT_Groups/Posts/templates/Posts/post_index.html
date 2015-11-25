@@ -1,23 +1,24 @@
 {% extends "Users/base.html" %}
 {% load staticfiles %}
+{% load comments %}
 <link rel="stylesheet" type="text/css" href="{% static 'Posts/style.css' %}"/>
 {% block content %}
-<a href="{% url 'Posts:post_create' group_id %}">Create a new post HERE!</a>
+<a href="{% url 'Posts:post_create' group_id %}">Create</a>
 {% if post_list %}
 <table class="table" align="center">
-	<tr>
-		<p>All posts in the current group:</p>
-	</tr>
     {% for post in post_list %}
-    	<tr>
-    		<td>{{ post.author }}</td>
-   			<td>{{ post.text }}</td>
-    	</tr>
-	    <tr>
-	    	<td><a href="{% url 'Posts:post_update' group_id post.id%}">Update</a></td>
-	    	<td><a href="{% url 'Posts:post_delete' group_id post.id%}">Delete</a></td>
-	    	<td><a href="{% url 'Posts:post_reply' group_id post.id%}">Reply</a></td>
-	    </tr>
+	<tr>
+		<table class="table" align="left">
+			<tr><p><b>{{ post.author }}</b></p></tr>
+			<tr><p>{{ post.text }}</p></tr>
+			<tr>
+				{% get_comment_count for post as comment_count %}
+				<a href="{% url 'Posts:post_update' group_id post.id %}">Update</a>
+				<a href="{% url 'Posts:post_delete' group_id post.id %}">Delete</a>
+				<a href="{% url 'Posts:post_comment' group_id post.id %}">Comment({{ comment_count }})</a>
+			</tr>
+		</table>
+	</tr>
     {% endfor %}
 </table>
 {% else %}
