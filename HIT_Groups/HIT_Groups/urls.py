@@ -12,6 +12,6 @@ urlpatterns = [
     url(r"^login/$", user_views.login),
     url(r"^logout/$", user_views.logout),
     url(r"^signup/$", user_views.signup),
-
+    url(r'^messages/', include('django_messages.urls')),
 ]
 

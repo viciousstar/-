@@ -40,6 +40,8 @@ INSTALLED_APPS = (
     'Groups',
     'Users',
     'Posts',
+    'django_messages',
+
 )
 
 MIDDLEWARE_CLASSES = (
