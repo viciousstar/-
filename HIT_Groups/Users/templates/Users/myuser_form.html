@@ -8,12 +8,27 @@
 <form action="" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-update">
-        <div class="form-group-lg">
-            <label for="avatar">Avator</label>
-            <img src="{{ form.instance.avatar.url }}" />
-            <input type="file" class="form-control" id="avatar" name="avatar">
-            <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" name="username" placeholder="{{form.username.value}}">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group-lg">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" value="{{form.username.value}}">
+                </div>
+                <div class="form-group-lg">
+                    <label for="email">Email</label>
+                    <input type="text" class="form-control" id="email" name="email" value="{{form.email.value}}">
+                </div>
+            </div>
+            <div class="col-md-4">
+                    <p><img src="{{ form.instance.avatar.url }}" width="100" height="100" class="avatar"/></p>
+                <div class="form-group-lg">
+                    <label for="avatar" class="sr-only"></label>
+                    {# <a class="btn btn-primary btn-upload"> #}
+                    {# <span>上传</span> #}
+                    <input type="file" id="avatar" name="avatar">
+                    {# </a> #}
+                </div>
+            </div>
         </div>
         {% if request.path|is_current_user_profile:user %}
         <button type="submit" class="btn btn-primary">Update</button>
