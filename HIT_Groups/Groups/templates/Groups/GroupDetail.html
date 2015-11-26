@@ -1,4 +1,8 @@
 {% extends "Users/base.html" %}
+{% load staticfiles %}
+{% block headblock %}
+<link href="{% static " css/groups.css" %}" rel="stylesheet">
+{% endblock headblock %}
 {% block content %}
 <h1>{{ group.name }}</h1>
 <li><a href="{% url 'Groups:GroupModify' group.id %}">修改这个圈子</a></li>

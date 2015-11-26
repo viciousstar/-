@@ -1,18 +1,89 @@
 {% extends "Users/base.html" %}
 {% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% static 'Groups/style.css' %}"/>
+{% block headblock %}
+<link href="{% static " css/groups.css" %}" rel="stylesheet">
+{% endblock headblock %}
+
 {% block content %}
-{% if group_list %}
-<ul>
-    {% for group in group_list %}
-    <li><a href="{% url 'Groups:GroupDetail' group.id %}">{{ group.name }}</a></li>
-    <a href="{% url 'Groups:GroupAdd' group.id %}">加入该圈子</a>
-    <a href="{% url 'Groups:GroupDelete' group.id %}">删除这个圈子</a>
-    {% endfor %}
-</ul>
-{% else %}
-<p>No groups are available.</p>
-{% endif %}
-<a href="{% url 'Groups:GroupCreate' %}">创建一个圈子</a></li>
+<div class="row">
+    <div class="col-md-2">
+        <ul class="nav nav-pills nav-stacked">
+            <li class="active">
+                <a href="#">All Groups</a>
+            </li>
+            {% if group_list %}
+            {% for group in group_list %}
+            <li><a href="{% url 'Groups:GroupDetail' group.id %}">{{ group.name }}</a></li>
+            {% endfor %}
+            {% else %}
+            <p>No groups are available.</p>
+            {% endif %}
+            <li><a href="{% url 'Groups:GroupCreate' %}">创建一个圈子</a></li>
+        </ul>
+    </div>
+    <div class="col-md-2">
+        <ul class="nav nav-pills nav-stacked">
+            <li class="active">
+                <a href="#">圈子相关信息</a>
+            </li>
+            {% if group_list %}
+            {% for group in group_list %}
+            <li class="active">圈子的描述信息为{{group.description}}</li>
+            {% endfor %}
+            {% else %}
+            <p>No groups are available.</p>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="col-md-2">
+        <ul class="nav nav-pills nav-stacked">
+            <li class="active">
+                <a href="#">加入该圈子</a>
+            </li>
+            {% if group_list %}
+            {% for group in group_list %}
+            <p></p>
+            <p></p>
+            <a href="{% url 'Groups:GroupAdd' group.id %}">加入该圈子</a>
+            {% endfor %}
+            {% else %}
+            <p>No groups are available.</p>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="col-md-2">
+        <ul class="nav nav-pills nav-stacked">
+            <li class="active">
+                <a href="#">删除该圈子</a>
+            </li>
+            {% if group_list %}
+            {% for group in group_list %}
+            <p></p>
+            <p></p>
+            <a href="{% url 'Groups:GroupDelete' group.id %}">删除这个圈子</a>
+            {% endfor %}
+            {% else %}
+            <p>No groups are available.</p>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
+</div>
+
 
 {% endblock content %}
+
+
+<!--{% if group_list %}-->
+<!--<ul>-->
+<!--{% for group in group_list %}-->
+<!--<li><a href="{% url 'Groups:GroupDetail' group.id %}">{{ group.name }}</a></li>-->
+<!--<a href="{% url 'Groups:GroupAdd' group.id %}">加入该圈子</a>-->
+<!--<a href="{% url 'Groups:GroupDelete' group.id %}">删除这个圈子</a>-->
+<!--{% endfor %}-->
+<!--</ul>-->
+<!--{% else %}-->
+<!--<p>No groups are available.</p>-->
+<!--{% endif %}-->
+<!--<a href="{% url 'Groups:GroupCreate' %}">创建一个圈子</a></li>-->

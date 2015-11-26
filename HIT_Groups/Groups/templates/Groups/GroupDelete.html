@@ -1,5 +1,13 @@
 {% extends "Users/base.html" %}
+{% load staticfiles %}
+{% block headblock %}
+    <link href="{% static "css/groups.css" %}" rel="stylesheet">
+{% endblock headblock %}
 {% block content %}
-删除成功!!!!
-<a href="{% url 'Groups:GroupsIndex' %}">返回圈子列表</a>
+<h1 align="center">删除成功!!</h1>
+<footer>
+    <p>
+        <a align="center" href="{% url 'Groups:GroupsIndex' %}">返回圈子列表</a>
+    </p>
+</footer>
 {% endblock content %}
