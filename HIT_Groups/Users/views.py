@@ -53,7 +53,7 @@ def signup(request):
 
 class UserUpdate(UpdateView):
     model = MyUser
-    fields = ['username']
+    fields = ['username', 'avatar']
     success_url = '/'
 
     def post(self, request, *args, **kwargs):

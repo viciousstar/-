@@ -5,10 +5,13 @@
 <link href="{% static "css/updateform.css" %}" rel="stylesheet">
 {% endblock headblock %}
 {% block content %}
-<form action="" method="POST">
+<form action="" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-update">
         <div class="form-group-lg">
+            <label for="avatar">Avator</label>
+            <img src="{{ form.instance.avatar.url }}" />
+            <input type="file" class="form-control" id="avatar" name="avatar">
             <label for="username">Username</label>
             <input type="text" class="form-control" id="username" name="username" placeholder="{{form.username.value}}">
         </div>
