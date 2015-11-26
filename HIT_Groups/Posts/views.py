@@ -34,7 +34,7 @@ def post_create(request, group_id):
 def post_delete(request, group_id, post_id):
     post = Post.objects.get(pk=post_id)
     post.delete()
-    return render(request, 'Posts/post_delete.html',{'group_id':group_id})
+    return HttpResponseRedirect('/groups/' + group_id + '/posts/') 
 
 
 def post_comment(request, group_id, post_id):
