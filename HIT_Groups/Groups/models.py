@@ -1,6 +1,5 @@
 from django.db import models
 from django.forms import ModelForm
-# from Posts.models import Tag
 
 class Group(models.Model):
     choices = (("发布消息","发布消息"),("兴趣爱好","兴趣爱好"),("社团信息","社团信息"),("消息推送","消息推送"))
@@ -11,7 +10,6 @@ class Group(models.Model):
     description = models.TextField()
     tag = models.CharField(max_length=10,choices=choices)
     permit = models.BooleanField()
-
     def __str__(self):
         return self.name
 

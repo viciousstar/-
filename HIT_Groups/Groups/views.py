@@ -5,7 +5,7 @@ from django.utils import timezone
 
 from .models import Group, ContactForm
 
-from Users.models import UsersAndGroups
+from Users.models import UsersAndGroups,MyUser
 
 
 def GroupsIndex(request):
@@ -68,8 +68,10 @@ def GroupDelete(request, group_id):
 
 def AddUser(request,group_id):
     group = Group.objects.get(pk=group_id)
-    uag = UsersAndGroups.objects.create(user_id = request.user,group_id = group,user_role = 'User')
-    uag.save()
+    user_list = group.myuser_set.all()
+    if request.user not in user_list:
+        uag = UsersAndGroups.objects.create(user_id = request.user,group_id = group,user_role = 'User')
+        uag.save()
     return HttpResponseRedirect('/')
 
 def GetPost(group):
