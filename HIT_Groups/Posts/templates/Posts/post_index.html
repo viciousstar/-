@@ -5,14 +5,13 @@
     <link href="{% static "css/groups.css" %}" rel="stylesheet">
 {% endblock headblock %}
 <link rel="stylesheet" type="text/css" href="{% static 'Posts/style.css' %}"/>
+
 {% block content %}
 {% if post_list %}
 <div id="content" class="container-fluid main">
 <div class="row">
 <div class="col-md-6">
-<form action="{% url 'Posts:post_create' group_id %}" method="post">
-	 <p class="submit"><input type="submit" name="submit" id="submit" class="btn btn-large btn-primary" value="创建"  /></p>
-</form>
+<p><a href="{% url 'Posts:post_create' group_id%}" class="btn btn-large btn-primary">Create</a>
 <ul class="nav nav-pills nav-stacked" align="center">
 	<li class="active">
 		<a href="#" >All Posts</a>
