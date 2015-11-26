@@ -16,7 +16,8 @@ def GroupsIndex(request):
 
 def GroupDetail(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
-    return render(request, 'Groups/GroupDetail.html', {'group': group})
+    list=GetPost(group)
+    return render(request, 'Groups/GroupDetail.html', {'group': group,"list":list})
 
 
 def GroupModify(request, group_id):
@@ -70,3 +71,7 @@ def AddUser(request,group_id):
     uag = UsersAndGroups.objects.create(user_id = request.user,group_id = group,user_role = 'User')
     uag.save()
     return HttpResponseRedirect('/')
+
+def GetPost(group):
+    post_list = group.post_group.all()
+    return post_list

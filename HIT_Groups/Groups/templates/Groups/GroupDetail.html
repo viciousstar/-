@@ -3,22 +3,52 @@
 {% block headblock %}
 <link href="{% static " css/groups.css" %}" rel="stylesheet">
 {% endblock headblock %}
+
 {% block content %}
-<h1>{{ group.name }}</h1>
-<li><a href="{% url 'Groups:GroupModify' group.id %}">修改这个圈子</a></li>
+<div id="content" class="container-fluid main">
+    <div class="row">
+        <div class="col-md-2">
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active">
+                    <a href="#">all users</a>
+                </li>
+                {%for u in group.myuser_set.all %}
+                <li><a href="/users/{{user.id}}">{{u.username}}</a></li>
+                {% endfor %}
+                <li class="active">
+                    <a href="#">all posts</a>
+                </li>
+                {%for post in list%}
+                    <li><a href="/groups/{{group.id}}/posts/{{post.id}}/comment">{{post.text}}</a></li>
+                {%endfor%}
+                <li><a href="{% url 'Posts:post_index' group.id %}">查看全部动态</a></li>
+                <li><a href="{% url 'Posts:post_create' group.id %}">创建一个动态</a></li>
+            </ul>
+        </div>
+        <div class="col-md-10">
+            <div class="row">
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">{{group.name}} <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'Groups:GroupAdd' group.id %}">加入该圈子</a></li>
+                        <li><a href="{% url 'Groups:GroupDelete' group.id %}">删除这个圈子</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="post-list">
+                    <p>the create time is {{group.create_time}}</p>
+                    <p>the latest update time is {{group.update_time}}</p>
+                    <p>the group description is {{group.description}}</p>
+                    <p>the group's tags are {{group.tag}}</p>
+                    <p>the group allow users add comments ? {{group.permit}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<li>the create time is {{group.create_time}}</li>
-<li>the latest update time is {{group.update_time}}</li>
-<li>the group description is {{group.description}}</li>
-<li>the group's tags are {{group.tag}}</li>
-<li>{{group.permit}}</li>
-{%for u in group.myuser_set.all %}
-<li>{{u.username}}</li>
-{%endfor%}
-<li>permit or not ? {{group.permit}}</li>
-
-<li><a href="{% url 'Posts:post_index' group.id %}">查看该圈子的全部动态</a></li>
-<li><a href="{% url 'Posts:post_create' group.id %}">为该圈子创建一个动态</a></li>
 {% endblock content %}
 
 
