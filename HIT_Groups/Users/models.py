@@ -28,7 +28,9 @@ class MyUser(AbstractUser):
     """
     my_groups = models.ManyToManyField(Group, through = "UsersAndGroups")
     # password
-    # headimage
+    avatar = models.ImageField(upload_to='avatar/%Y/%m/%d', height_field="avatar_height", width_field="avatar_width")
+    avatar_height = models.IntegerField(default=100)
+    avatar_width = models.IntegerField(default=100)
     def has_role_creator(self, group):
         return True if \
             UsersAndGroups.objects.filter(user_id = self, group_id = group, user_role="Creator") \

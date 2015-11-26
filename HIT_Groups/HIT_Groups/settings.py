@@ -44,6 +44,8 @@ INSTALLED_APPS = (
     'Groups',
     'Users',
     'Posts',
+    'django_messages',
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -123,3 +125,6 @@ REST_FRAMEWORK = {
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = "/media/"
