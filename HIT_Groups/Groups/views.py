@@ -5,7 +5,7 @@ from django.utils import timezone
 
 from .models import Group, ContactForm
 
-from Users.models import UsersAndGroups
+from Users.models import UsersAndGroups,MyUser
 
 
 def GroupsIndex(request):
@@ -16,28 +16,32 @@ def GroupsIndex(request):
 
 def GroupDetail(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
-    return render(request, 'Groups/GroupDetail.html', {'group': group})
+    list=GetPost(group)
+    return render(request, 'Groups/GroupDetail.html', {'group': group,"list":list})
 
 
 def GroupModify(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
-    if request.method == 'POST':
-        form = ContactForm(request.POST) 
-        if form.is_valid():
-            name = form.cleaned_data["name"]
-            description = form.cleaned_data["description"]
-            tag = form.cleaned_data["tag"]
-            permit = form.cleaned_data["permit"]
-            group.name = name
-            group.description = description
-            group.tag = tag
-            group.permit = permit
-            group.update_time = timezone.now()
-            group.save()
-            return HttpResponseRedirect('/groups/' + group_id + '/')
+    if group.CanModifyGroups(request.user):
+        if request.method == 'POST':
+            form = ContactForm(request.POST)
+            if form.is_valid():
+                name = form.cleaned_data["name"]
+                description = form.cleaned_data["description"]
+                tag = form.cleaned_data["tag"]
+                permit = form.cleaned_data["permit"]
+                group.name = name
+                group.description = description
+                group.tag = tag
+                group.permit = permit
+                group.update_time = timezone.now()
+                group.save()
+                return HttpResponseRedirect('/groups/' + group_id + '/')
+        else:
+            form = ContactForm()
+        return render(request, 'Groups/GroupModify.html', {'form': form, 'group': group})
     else:
-        form = ContactForm()
-    return render(request, 'Groups/GroupModify.html', {'form': form, 'group': group})
+        return HttpResponse("Sorry, you do not have the permission.")
 
 
 def GroupCreate(request):
@@ -67,6 +71,17 @@ def GroupDelete(request, group_id):
 
 def AddUser(request,group_id):
     group = Group.objects.get(pk=group_id)
-    uag = UsersAndGroups.objects.create(user_id = request.user,group_id = group,user_role = 'User')
-    uag.save()
-    return HttpResponseRedirect('/')
+    user_list = group.myuser_set.all()
+    if request.user not in user_list:
+        uag = UsersAndGroups.objects.create(user_id = request.user,group_id = group,user_role = 'User')
+        uag.save()
+        return HttpResponseRedirect('/')
+    else:
+        return HttpResponse("already in this group")
+
+
+
+
+def GetPost(group):
+    post_list = group.post_group.all()
+    return post_list

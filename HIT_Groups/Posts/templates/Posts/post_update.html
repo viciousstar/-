@@ -1,5 +1,8 @@
 {% extends "Users/base.html" %}
-
+{% load staticfiles %}
+{% block headblock %}
+<link href="{% static "css/updateform.css" %}" rel="stylesheet">
+{% endblock headblock %}
 {% block content %}
 
 <h1>Update Post</h1>
@@ -11,15 +14,15 @@
 <div class="col-md-6">
 <form action="{% url 'Posts:post_update' group_id post_id %}" class="form-horizontal" role="form" method="post">
     {% csrf_token %}
+    <div class="form-update">
+    <div class="form-group-lg">
     <table class="form-table">
-    {% for field in form %}
-    <div class="form-group">
-        {{ field.label_tag }}{{ field }}
-        {{ field.errors }}<br />
+    <label for="post">Post</label>
+    <textarea class="form-control" id="text" name="text" rows="3" cols="10" placeholder="{{form.text.value}}"></textarea>
+    <p class="submit"><input type="submit" name="submit" id="submit" class="btn btn-large brn-primary" value="修改"  /></p>
+    </table>
+        </div>
     </div>
-    {% endfor %}
-</table>
-<p class="submit"><input type="submit" name="submit" id="submit" class="btn btn-large brn-primary" value="修改"  /></p>
 </form>
 </div>
 </div>
