@@ -29,7 +29,7 @@ def post_create(request, group_id):
                 posted_time=timezone.now()
                 )
             post.save()
-            return HttpResponseRedirect('/groups/' + group_id + '/posts/')
+            return HttpResponseRedirect("/?group=" + str(group_id))
     else:
         form = PostForm()
     return render(request, 'Posts/post_create.html', {'form': form, 'group_id': group_id})
@@ -39,7 +39,7 @@ def post_delete(request, group_id, post_id):
     post = Post.objects.get(pk=post_id)
     if post.creator() == request.user:
         post.delete()
-    return HttpResponseRedirect('/groups/' + group_id + '/posts/') 
+    return HttpResponseRedirect('/groups/' + group_id + '/posts/')
 
 
 def post_comment(request, group_id, post_id):
@@ -54,8 +54,8 @@ def post_comment(request, group_id, post_id):
                 name=request.user.name
             )
             comment.save()
-            return HttpResponseRedirect('/groups/' + group_id + '/posts/') 
-    else:        
+            return HttpResponseRedirect('/groups/' + group_id + '/posts/')
+    else:
         form = CommentForm(post)
     return render(request, 'Posts/post_comment.html', {'form': form, 'post': post, 'group_id': group_id})
 
@@ -64,7 +64,7 @@ def post_update(request, group_id, post_id):
     post = Post.objects.get(pk=post_id)
     if request.method == 'POST':
         form = PostForm(request.POST)
-            
+
         if form.is_valid() and (request.user == post.creator()):
             post.text = form.cleaned_data['text']
             post.save()
@@ -72,13 +72,13 @@ def post_update(request, group_id, post_id):
     else:
         form = PostForm()
     return render(request, 'Posts/post_update.html', {'form': form, 'group_id':group_id,'post_id': post_id})
-    
+
 def post_like(request, group_id, post_id):
     post = Post.objects.get(pk=post_id)
     ul = UsersLike.objects.create(user=request.user if request.user.is_active else None, post=post)
     ul.save()
     return HttpResponseRedirect('/groups/' + group_id + '/posts/')
-    
+
 def post_like_count(post_id):
     post = Post.objects.get(pk=post_id)
     return len(post.users_like_set.all())
