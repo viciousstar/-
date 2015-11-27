@@ -10,8 +10,7 @@
 {% if post_list %}
 <div id="content" class="container-fluid main">
 <div class="row">
-<div class="col-md-6">
-<p><a href="{% url 'Posts:post_create' group_id%}" class="btn btn-large btn-primary">Create</a>
+<div class="col-md-4">
 <ul class="nav nav-pills nav-stacked" align="center">
 	<li class="active">
 		<a href="#" >All Posts</a>
@@ -22,9 +21,12 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{post.author}}<span class="caret"></span></a>
 			<ul class="dropdown-menu">
 				{% get_comment_count for post as comment_count %}
+				{% if post.author == request.user %}
 				<li><a href="{% url 'Posts:post_update' group_id post.id %}">Update</a></li>
+				{% endif %}
 				<li><a href="{% url 'Posts:post_delete' group_id post.id %}">Delete</a></li>
 				<li><a href="{% url 'Posts:post_comment' group_id post.id %}">Comment({{ comment_count }})</a></li>
+				<li><a href="{% url 'Posts:post_like' group_id post.id %}">Like</a>
 			</ul>
 			<li><p>{{ post.text }}</p></li>
 			</div>
