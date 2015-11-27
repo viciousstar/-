@@ -18,13 +18,14 @@ def post_index(request, group_id):
 
 
 def post_create(request, group_id):
+    group = Group.objects.get(pk=group_id)
     if request.method == 'POST':
         form = PostForm(request.POST)
-        if form.is_valid():
+        if form.is_valid() and group.CanAddPosts(request.user):
             post = Post(
                 text=form.cleaned_data["text"],
                 author=request.user if request.user.is_active else None,
-                group=Group.objects.get(pk=group_id),
+                group=group,
                 posted_time=timezone.now()
                 )
             post.save()
@@ -36,7 +37,8 @@ def post_create(request, group_id):
 
 def post_delete(request, group_id, post_id):
     post = Post.objects.get(pk=post_id)
-    post.delete()
+    if post.creator() == request.user:
+        post.delete()
     return HttpResponseRedirect('/groups/' + group_id + '/posts/') 
 
 
@@ -63,7 +65,7 @@ def post_update(request, group_id, post_id):
     if request.method == 'POST':
         form = PostForm(request.POST)
             
-        if form.is_valid() and (request.user == post.creator):
+        if form.is_valid() and (request.user == post.creator()):
             post.text = form.cleaned_data['text']
             post.save()
             return HttpResponseRedirect('/groups/' + group_id + '/posts/')
