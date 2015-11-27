@@ -21,6 +21,7 @@ def root(request, format=None):
                 posts.extend(p.post_group.all())
             groups.name = "All"
             return render(request, "Users/index.html", {"groups": groups, "cur_group": groups, "posts": posts})
+    return render(request, "Users/index.html", {"groups": [], "cur_group": [], "posts": posts})
 
 
 
