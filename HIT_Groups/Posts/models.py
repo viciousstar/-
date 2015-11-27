@@ -19,6 +19,9 @@ class Post(models.Model):
     starred = models.ManyToManyField(MyUser, related_name = 'post_starred')
     group = models.ForeignKey(Group, related_name = 'post_group')
     posted_time = models.DateTimeField(default=timezone.now())
+    
+    def creator(self):
+        return self.author
 
                                   
 class UsersLike(models.Model):

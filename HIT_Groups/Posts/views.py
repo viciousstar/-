@@ -14,7 +14,7 @@ from .forms import PostForm
 def post_index(request, group_id):
     print(group_id)
     post_list = get_list_or_404(Post, group=group_id)
-    return render(request, 'Posts/post_index.html', {'post_list': post_list, 'group_id': group_id})
+    return render(request, 'Posts/post_index.html', {'post_list': post_list, 'group_id': group_id, 'request': request})
 
 
 def post_create(request, group_id):
@@ -62,7 +62,8 @@ def post_update(request, group_id, post_id):
     post = Post.objects.get(pk=post_id)
     if request.method == 'POST':
         form = PostForm(request.POST)
-        if form.is_valid():
+            
+        if form.is_valid() and (request.user == post.creator):
             post.text = form.cleaned_data['text']
             post.save()
             return HttpResponseRedirect('/groups/' + group_id + '/posts/')
