@@ -29,6 +29,10 @@ class Group(models.Model):
         else:
             return True
 
+    def GetPost(group):
+        post_list = group.post_group.all()
+        return post_list
+
 class ContactForm(ModelForm):
     class Meta:
         model = Group

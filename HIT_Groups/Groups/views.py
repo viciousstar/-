@@ -16,7 +16,7 @@ def GroupsIndex(request):
 
 def GroupDetail(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
-    list=GetPost(group)
+    list=group.GetPost()
     return render(request, 'Groups/GroupDetail.html', {'group': group,"list":list})
 
 
@@ -65,9 +65,11 @@ def GroupCreate(request):
 
 def GroupDelete(request, group_id):
     group = Group.objects.get(pk=group_id)
-
-    group.delete()
-    return render(request, 'Groups/GroupDelete.html')
+    if group.CanModifyGroups(request.user):
+        group.delete()
+        return render(request, 'Groups/GroupDelete.html')
+    else:
+        return HttpResponse("Sorry, you do not have the permission.")
 
 def AddUser(request,group_id):
     group = Group.objects.get(pk=group_id)
@@ -82,6 +84,4 @@ def AddUser(request,group_id):
 
 
 
-def GetPost(group):
-    post_list = group.post_group.all()
-    return post_list
+
