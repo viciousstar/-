@@ -1,28 +1,27 @@
 {% extends "Users/base.html" %}
 {% load staticfiles %}
 {% block headblock %}
-    <link href="{% static "css/groups.css" %}" rel="stylesheet">
+<link href="{% static "css/groups.css" %}" rel="stylesheet">
 {% endblock headblock %}
 {% block content %}
 <div id="content" class="container-fluid main">
     <div class="row">
         <div class="col-md-2">
             <ul class="nav nav-pills nav-stacked">
-                <li class="active">
-                    <a href="#" >All Posts</a>
+                <li>
+                    <a href="/" >All Posts</a>
                 </li>
                 {% for group in groups %}
-                <li><a href="/groups/{{group.id}}"># {{group.name}}</a></li>
+                <li><a href="/?group={{group.id}}"># {{group.name}}</a></li>
                 {% endfor %}
             </ul>
         </div>
         <div class="col-md-10">
             <div class="row">
                 <div class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Current Group <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{cur_group.name}} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href= "#">Profile</a></li>
-                        <li><a href="#">Log out</a></li>
+                        <li><a href="/groups/{{cur_group.id}}">Detial</a></li>
                     </ul>
                 </div>
             </div>
@@ -31,12 +30,29 @@
                     {% for post in posts %}
                     <div class="post">
                         <p>{{post.text}}</p>
-                        <p class="post-meta">January 1, 2014 by <a href="#">Mark</a></p>
+                        <p class="post-meta">{{post.posted_time}} by <a href="/users/{{post.author.id}}">{{post.author.username}}</a></p>
                     </div>
                     {% endfor %}
                     <p></p>
                 </div>
             </div>
+            {% if cur_group.id != None %}
+            <div class="row">
+                <form action="{% url 'Posts:post_create' cur_group.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-update">
+                        <div class="form-group" style="
+                            width: 90%;
+                            display: inline-block;
+                            ">
+                            <label for="id_text" class="sr-only"></label>
+                            <input type="text" class="form-control" id="id_text" name="text"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">New Post</button>
+                    </div>
+                </form>
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>

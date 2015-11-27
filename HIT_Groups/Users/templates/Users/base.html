@@ -20,7 +20,7 @@
 
         .footer {
             width: 100%;
-            position: absolute;
+            position: relative;
             bottom: 0;
             text-align: center;
         }
@@ -62,11 +62,13 @@
         </div>
     </nav>
     </div>
+    <div style="min-height: 100%">
     {% block content %}
         <div id="content" class="container">
             <h1 class="defaulth1">圣·马家沟男子技校欢迎您</h1>
         </div>
     {% endblock content %}
+    </div>
     <footer class="footer">
       <p>HIT SE project <a href="https://github.com/viciousstar/SE-Project-HIT">HIT Groups</a> by <a href="#">HITer</a>.</p>
       <p>

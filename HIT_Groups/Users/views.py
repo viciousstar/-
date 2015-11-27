@@ -9,13 +9,19 @@ from Users.forms import MyUserForm
 
 
 def root(request, format=None):
-    groups = []
     posts = []
     if request.user.is_authenticated():
         groups = request.user.my_groups.all()
-        for p in groups:
-            posts.extend(p.post_group.all())
-    return render(request, "Users/index.html", {"groups": groups, "posts": posts})
+        if "group" in request.GET:
+            cur_group = request.user.my_groups.get(id=int(request.GET["group"]))
+            posts.extend(cur_group.post_group.all())
+            return render(request, "Users/index.html", {"groups": groups, "cur_group": cur_group, "posts": posts})
+        else:
+            for p in groups:
+                posts.extend(p.post_group.all())
+            groups.name = "All"
+            return render(request, "Users/index.html", {"groups": groups, "cur_group": groups, "posts": posts})
+
 
 
 def login(request):
