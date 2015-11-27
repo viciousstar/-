@@ -2,39 +2,42 @@
 {% load staticfiles %}
 {% load comments %}
 
-{% block content %}
-
 {% block headblock %}
     <link href="{% static 'css/groups.css' %}" rel="stylesheet">
 {% endblock headblock %}
 
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% block content %}
 
+<h1>Comments</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<div id="content" class="container-fluid main">
+<div class="row">
+<div class="col-md-4">
 <form action="{% url 'Posts:post_comment' group_id post.id %}" class="form-horizontal" role="form" method="post">
     {% csrf_token %}
     <div class="form-update">
     <div class="form-group-lg">
     <ul class="nav nav-pills nav-stacked" align="left">
-        <li><p><b>{{ post.author }}</b></p></li>
+        <li class="active">
+		<p><h5>{{ post.author }} - posted on {{post.posted_time}}</h5></p>
+	   </li>
         <li><p>{{ post.text }}</p></li>
+       <li class="active">
+		<h5>{{ comment_count }} Comments posted:</h5>
+	   </li>
         <li>
-            <p>{{ comment_count }} comments posted.</p>
-            {% render_comment_list for post %}
+            <p>{% render_comment_list for post %}</p>
         </li>
-        {% for field in form %}
-            {% if field.label_tag == "Comment" or "Name"%}
-            <li>
-            <div class="form-group">
-                {{ field.label_tag }}{{ field }}
-                {{ field.errors }}<br />
-            </div>
-            </li>
-            {% endif %}
-        {% endfor %}
     </ul>
-    </div>
+    <label for="comment">Comment</label>
+    <textarea class="form-control" id="comment" name="comment" rows="3" cols="10" placeholder="{{form.comment.value}}"></textarea>
     <p class="submit"><input type="submit" name="submit" id="submit" class="btn btn-large btn-primary" value="评论"  /></p>
     </div>
+    </div>
 </form>
+</div>
+</div>
+</div>
 
 {% endblock %}

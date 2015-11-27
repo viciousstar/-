@@ -49,7 +49,7 @@ def post_comment(request, group_id, post_id):
                 user=request.user if request.user.is_active else None,
                 content_object=post,
                 comment=form.cleaned_data["comment"],
-                name=form.cleaned_data["name"]
+                name=request.user.name
             )
             comment.save()
             return HttpResponseRedirect('/groups/' + group_id + '/posts/') 
@@ -72,9 +72,9 @@ def post_update(request, group_id, post_id):
     
 def post_like(request, group_id, post_id):
     post = Post.objects.get(pk=post_id)
-    ul = UsersLike.objects.create(user_id = request.user if request.user.is_active else None ,post_id=post)
+    ul = UsersLike.objects.create(user=request.user if request.user.is_active else None, post=post)
     ul.save()
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect('/groups/' + group_id + '/posts/')
     
 def post_like_count(post_id):
     post = Post.objects.get(pk=post_id)

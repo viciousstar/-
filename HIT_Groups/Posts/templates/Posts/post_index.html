@@ -24,6 +24,7 @@
 				<li><a href="{% url 'Posts:post_update' group_id post.id %}">Update</a></li>
 				<li><a href="{% url 'Posts:post_delete' group_id post.id %}">Delete</a></li>
 				<li><a href="{% url 'Posts:post_comment' group_id post.id %}">Comment({{ comment_count }})</a></li>
+				<li><a href="{% url 'Posts:post_like' group_id post.id %}">Like</a>
 			</ul>
 			<li><p>{{ post.text }}</p></li>
 			</div>

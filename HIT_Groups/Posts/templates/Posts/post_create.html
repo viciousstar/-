@@ -1,8 +1,12 @@
 {% extends "Users/base.html" %}
+{% load staticfiles %}
+{% block headblock %}
+<link href="{% static "css/updateform.css" %}" rel="stylesheet">
+{% endblock headblock %}
 
 {% block content %}
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
+<h1>Create Post</h1>
 
 <div id="content" class="container-fluid main">
 <div class="row">
@@ -10,15 +14,15 @@
 
 <form action="{% url 'Posts:post_create' group_id %}" class="form-horizontal" role="form" method="post">
     {% csrf_token %}
+    <div class="form-update">
+    <div class="form-group-lg">
     <table class="form-table">
-    {% for field in form %}
-    <div class="form-group">
-         {{ field.label_tag }}{{ field }}
-         {{ field.errors }}<br />
-    </div>
-    {% endfor %}
+    <label for="post">Post</label>
+    <textarea class="form-control" id="text" name="text" rows="3" cols="10" placeholder="{{form.text.value}}"></textarea>
     </table>
     <p class="submit"><input type="submit" name="submit" id="submit" class="btn btn-large btn-primary" value="创建"  /></p>
+    </div>
+    </div>
 </form>
 
 </div>

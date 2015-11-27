@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from Groups.models import Group
-from Posts.models import Posts
 
 # Create your models here.
 class UsersAndGroups(models.Model):
@@ -18,10 +17,6 @@ class UsersAndGroups(models.Model):
                                  (('Creator', 'Creator'),
                                   ("Admin", "Admin"),
                                   ("User", "User")), default="User", max_length = 20)
-                                  
-class UsersLike(models.Model):
-    user_id = models.ForeignKey("MyUser")
-    post_id = models.ForeignKey(Post)
 
 class MyUser(AbstractUser):
     """

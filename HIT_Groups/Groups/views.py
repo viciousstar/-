@@ -72,7 +72,7 @@ def AddUser(request,group_id):
     if request.user not in user_list:
         uag = UsersAndGroups.objects.create(user_id = request.user,group_id = group,user_role = 'User')
         uag.save()
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect()
 
 def GetPost(group):
     post_list = group.post_group.all()
