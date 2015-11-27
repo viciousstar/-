@@ -3,7 +3,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django_comments.forms import CommentForm
 from django_comments.models import Comment
 
-from .models import Post
+from django.utils import timezone
+
+from .models import Post, UsersLike
 from Groups.models import Group
 from .forms import PostForm
 
@@ -22,7 +24,8 @@ def post_create(request, group_id):
             post = Post(
                 text=form.cleaned_data["text"],
                 author=request.user if request.user.is_active else None,
-                group=Group.objects.get(pk=group_id)
+                group=Group.objects.get(pk=group_id),
+                posted_time=timezone.now()
                 )
             post.save()
             return HttpResponseRedirect('/groups/' + group_id + '/posts/')
@@ -66,5 +69,14 @@ def post_update(request, group_id, post_id):
     else:
         form = PostForm()
     return render(request, 'Posts/post_update.html', {'form': form, 'group_id':group_id,'post_id': post_id})
-
+    
+def post_like(request, group_id, post_id):
+    post = Post.objects.get(pk=post_id)
+    ul = UsersLike.objects.create(user_id = request.user if request.user.is_active else None ,post_id=post)
+    ul.save()
+    return HttpResponseRedirect('/')
+    
+def post_like_count(post_id):
+    post = Post.objects.get(pk=post_id)
+    return len(post.users_like_set.all())
 

@@ -9,11 +9,11 @@
 {% endblock headblock %}
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-<div id="content" class="container-fluid main">
-<div class="row">
-<div class="col-md-6">
+
 <form action="{% url 'Posts:post_comment' group_id post.id %}" class="form-horizontal" role="form" method="post">
     {% csrf_token %}
+    <div class="form-update">
+    <div class="form-group-lg">
     <ul class="nav nav-pills nav-stacked" align="left">
         <li><p><b>{{ post.author }}</b></p></li>
         <li><p>{{ post.text }}</p></li>
@@ -32,9 +32,9 @@
             {% endif %}
         {% endfor %}
     </ul>
+    </div>
     <p class="submit"><input type="submit" name="submit" id="submit" class="btn btn-large btn-primary" value="评论"  /></p>
+    </div>
 </form>
-</div>
-</div>
-</div>
+
 {% endblock %}

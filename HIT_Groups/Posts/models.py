@@ -11,11 +11,16 @@ class Tag(models.Model):
 class Post(models.Model):
     text = models.TextField()
     author = models.ForeignKey(MyUser, related_name = 'post_author')
-    user_like = models.ManyToManyField(MyUser, related_name = 'post_user_like')
+    user_like = models.ManyToManyField(MyUser, related_name = 'post_users_like', through='UsersLike')
     #tag = models.ManyToManyField(Tag, related_name = 'postoftag')
-    user_mentioned = models.ManyToManyField(MyUser, related_name = 'post_user_mentioned')
+    user_mentioned = models.ManyToManyField(MyUser, related_name = 'post_users_mentioned')
     starred = models.ManyToManyField(MyUser, related_name = 'post_starred')
     group = models.ForeignKey(Group, related_name = 'post_group')
-    #posted_time = models.DateTimeField()
+    posted_time = models.DateTimeField()
+
+                                  
+class UsersLike(models.Model):
+    user_id = models.ForeignKey(MyUser)
+    post_id = models.ForeignKey(Post)
 
 
