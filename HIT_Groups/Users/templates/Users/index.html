@@ -8,22 +8,24 @@
         <div class="col-md-2">
             <ul class="nav nav-pills nav-stacked">
                 <li>
-                    <a href="/" >All Posts</a>
+                    <a href="{% url 'root' %}" >All Posts</a>
                 </li>
                 {% for group in groups %}
-                <li><a href="/?group={{group.id}}"># {{group.name}}</a></li>
+                <li><a href="{% url 'root' %}?group={{group.id}}"># {{group.name}}</a></li>
                 {% endfor %}
             </ul>
         </div>
         <div class="col-md-10">
+            {% if cur_group %}
             <div class="row">
                 <div class="dropdown group-dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{cur_group.name}} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/groups/{{cur_group.id}}">Detial</a></li>
+                        <li><a href="{% url 'Groups:GroupDetail' cur_group.id %}">Detial</a></li>
                     </ul>
                 </div>
             </div>
+            {% endif %}
             <div class="row">
                 <div class="post-list">
                     {% for post in posts %}
@@ -33,7 +35,7 @@
                         </div>
                         <div class="col-md-11">
                             <div class="row">
-                                <p class="post-meta"><a href="/users/{{post.author.id}}">{{post.author.username}}</a></p>
+                                <p class="post-meta"><a href="{% url 'Users:UserUpdate' post.author.id%}">{{post.author.username}}</a></p>
                                 <p class="post-meta">{{post.posted_time}}</p>
                             </div>
                             <div class="row">

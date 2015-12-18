@@ -6,6 +6,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import HttpResponseRedirect, HttpResponse
 from Users.models import MyUser
 from Users.forms import MyUserForm
+from HIT_Groups.settings import LOGIN_REDIRECT_URL
 
 
 def root(request, format=None):
@@ -19,8 +20,7 @@ def root(request, format=None):
         else:
             for p in groups:
                 posts.extend(p.post_group.all())
-            groups.name = "All"
-            return render(request, "Users/index.html", {"groups": groups, "cur_group": groups, "posts": posts})
+            return render(request, "Users/index.html", {"groups": groups, "cur_group": [], "posts": posts})
     return render(request, "Users/index.html", {"groups": [], "cur_group": [], "posts": posts})
 
 
@@ -35,7 +35,7 @@ def login(request):
         if user is not None:
             if user.is_active:
                 django_login(request, user)
-                return HttpResponseRedirect("/")
+                return HttpResponseRedirect(LOGIN_REDIRECT_URL)
             else:
                 return HttpResponse("Invalid Error")
         else:
@@ -44,14 +44,14 @@ def login(request):
 
 def logout(request):
     django_logout(request)
-    return HttpResponseRedirect("/")
+    return HttpResponseRedirect(LOGOUT_REDIRECT_URL)
 
 def signup(request):
     if request.method == 'POST':
         form = MyUserForm(request.POST)
         if form.is_valid():
             user = MyUser.objects.create_user(request.POST["username"], request.POST["email"], request.POST["password"])
-            return HttpResponseRedirect("/")
+            return HttpResponseRedirect(LOGIN_REDIRECT_URL)
     else:
         form = MyUserForm()
 
@@ -61,7 +61,7 @@ def signup(request):
 class UserUpdate(UpdateView):
     model = MyUser
     fields = ['username', 'avatar', "email"]
-    success_url = '/'
+    success_url = LOGIN_REDIRECT_URL
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()

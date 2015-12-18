@@ -22,7 +22,7 @@
 <body>
     <div class="container">
         {% block form %}
-        <form class="form-update" action="/login/" method="POST">
+        <form class="form-update" action="{% url 'login' %}" method="POST">
             {% csrf_token %}
             <h2 class="text-center">圣·马家沟男子技校欢迎您</h2>
             <div class="form-group-lg">
