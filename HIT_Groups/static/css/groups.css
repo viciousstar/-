@@ -1,8 +1,10 @@
-/*
- * Globals
- */
-
+/*for footer*/
+html {
+  height:100%;
+}
 body {
+  padding-top: 50px;
+  height:100%;
   font-family: Georgia, "Times New Roman", Times, serif;
   color: #555;
 }
@@ -19,9 +21,20 @@ h6, .h6 {
   color: #333;
 }
 
+.text-center {
+  text-align: center;
+}
+/*内容紧挨着边框*/
+.nav-container {
+  margin-left: 0;
+  margin-right: 0;
+  width: auto
+}
 
-
-
+.content {
+  margin-top: 1%;
+  min-height: 89%;
+}
 .group-header {
   padding-top: 20px;
   padding-bottom: 20px;
@@ -92,4 +105,11 @@ h6, .h6 {
 
 .group-dropdown {
   margin-bottom: 10px;
+}
+
+.footer {
+    width: 100%;
+    position: relative;
+    bottom: 0;
+    text-align: center;
 }
