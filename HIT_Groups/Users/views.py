@@ -6,7 +6,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import HttpResponseRedirect, HttpResponse
 from Users.models import MyUser
 from Users.forms import MyUserForm
-from HIT_Groups.settings import LOGIN_REDIRECT_URL
+from HIT_Groups.settings import LOGIN_REDIRECT_URL, LOGOUT_REDIRECT_URL
 
 
 def root(request, format=None):
@@ -27,6 +27,8 @@ def root(request, format=None):
 
 def login(request):
     if request.method == "GET":
+        if "next" in request.GET:
+            return render(request, "Users/login.html", {"next": request.GET['next']})
         return render(request, "Users/login.html")
     else:
         username = request.POST['username']
@@ -35,6 +37,8 @@ def login(request):
         if user is not None:
             if user.is_active:
                 django_login(request, user)
+                if "next" in request.GET:
+                    return HttpResponseRedirect(request.GET["next"])
                 return HttpResponseRedirect(LOGIN_REDIRECT_URL)
             else:
                 return HttpResponse("Invalid Error")

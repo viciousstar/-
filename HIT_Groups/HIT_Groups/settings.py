@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'Users',
     'Posts',
     'django_messages',
+    'stronghold',
 
 )
 
@@ -57,6 +58,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'stronghold.middleware.LoginRequiredMiddleware',
+
 )
 
 ROOT_URLCONF = 'HIT_Groups.urls'
@@ -132,4 +135,10 @@ MEDIA_URL = "/media/"
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_URL = "/logout"
-LOGIOUT_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+
+STRONGHOLD_DEFAULTS = False
+# do not require login
+STRONGHOLD_PUBLIC_NAMED_URLS = ("login",
+                                "signup",
+                                )
