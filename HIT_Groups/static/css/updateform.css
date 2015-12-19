@@ -13,7 +13,7 @@
     font-size: 18px;
 }
 
-.form-update button{
+.form-update button, .profile-button{
     margin: 10% auto 0 auto;
     display: block;
 }

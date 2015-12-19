@@ -13,7 +13,7 @@ urlpatterns = [
     url(r"^login/$", user_views.login, name="login"),
     url(r"^logout/$", user_views.logout, name="logout"),
     url(r"^signup/$", user_views.signup, name="signup"),
-    url(r'^messages/', include('django_messages.urls', namespace="messages")),
+    url(r'^messages/', include('django_messages.urls')),
 ]
 
 urlpatterns += static.static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

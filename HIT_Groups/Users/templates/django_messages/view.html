@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% block headblock %}
+<link href="{% static " css/updateform.css " %}" rel="stylesheet">
+{% endblock headblock %}
+{% block content %}
+<div id="content" class="container-fluid main">
+    <div class="form-update">
+        <h1 class="text-center">{% trans "View Message" %}</h1>
+        <h2 class="message-subject">{{ message.subject }}</h2>
+        <p class="message-meta">{{ message.sent_at|date:_("DATETIME_FORMAT")}} by <a href="{% url 'Users:UserUpdate' message.sender.id%}">{{message.sender.username}}</a> to <a href="{% url 'Users:UserUpdate' message.recipient.id%}">{{message.recipient.username}}</a></p>
+        <p>{{ message.body|linebreaksbr }}</p>
+        {% ifequal message.recipient.pk user.pk %}
+        <hr>
+        <a href="{% url 'messages_reply' message.id %}">{% trans "Reply" %}</a>
+        {% endifequal %}
+        <a href="{% url 'messages_delete' message.id %}">{% trans "Delete" %}</a>
+    </div>
+</div>
+{% endblock content %}

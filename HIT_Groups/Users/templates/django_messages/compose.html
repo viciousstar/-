@@ -1,0 +1,32 @@
+{% extends "django_messages/base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% load usertag %}
+{% block headblock %}
+<link href="{% static "css/updateform.css" %}" rel="stylesheet">
+{% endblock headblock %}
+{% block content %}
+<form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-update">
+        <div class="row">
+            <h2 class="text-center">Compose</h2>
+            <div class="form-group-lg">
+                <label for="id_recipient">Recipient:</label>
+                {{form.recipient|add_attributes:"form-control"}}
+                {# form.recipient.value do not work #}
+                {# <input id="id_recipient" class="form-control" name="recipient" type="text" value="{{form.recipient.value}}"> #}
+            </div>
+            <div class="form-group-lg">
+                <label for="id_subject">Subject:</label>
+                <input id="id_subject" class="form-control" maxlength="120" name="subject" type="text" value="{{form.subject.value}}">
+            </div>
+            <div class="form-group-lg">
+                <label for="id_body">Body:</label>
+                <textarea cols="55" class="form-control" id="id_body" name="body" rows="5" value="{{form.body.value}}"></textarea>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Send</button>
+    </div>
+</form>
+{% endblock %}

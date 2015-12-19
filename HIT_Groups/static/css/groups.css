@@ -33,7 +33,7 @@ h6, .h6 {
 
 .content {
   margin-top: 1%;
-  min-height: 89%;
+  min-height: 84%;
 }
 .group-header {
   padding-top: 20px;
@@ -109,7 +109,20 @@ h6, .h6 {
 
 .footer {
     width: 100%;
-    position: relative;
     bottom: 0;
     text-align: center;
+}
+
+.message-subject {
+    margin-bottom: 5px;
+    font-size: 40px;
+}
+
+.message-meta {
+    margin-bottom: 20px;
+    color: #999;
+}
+
+.inline-post button {
+  float: right;
 }

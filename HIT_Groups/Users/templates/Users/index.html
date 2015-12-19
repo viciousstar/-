@@ -11,7 +11,7 @@
                     <a href="{% url 'root' %}" >All Posts</a>
                 </li>
                 {% for group in groups %}
-                <li><a href="{% url 'root' %}?group={{group.id}}"># {{group.name}}</a></li>
+                <li class="{%if group.id == cur_group.id %} active {%endif%}"><a href="{% url 'root' %}?group={{group.id}}"># {{group.name}}</a></li>
                 {% endfor %}
             </ul>
         </div>
@@ -25,6 +25,20 @@
                     </ul>
                 </div>
             </div>
+            {% if cur_group.id != None %}
+            <div class="row">
+                <form action="{% url 'Posts:post_create' cur_group.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="inline-post">
+                            <label for="id_text" class="sr-only"></label>
+                            <textarea name="text" id="id_text" class="form-control" rows="2"></textarea>
+                            <div>
+                            <button type="submit" class="btn btn-primary">New Post</button>
+                            </div>
+                    </div>
+                </form>
+            </div>
+            {% endif %}
             {% endif %}
             <div class="row">
                 <div class="post-list">
@@ -49,23 +63,6 @@
                     <p></p>
                 </div>
             </div>
-            {% if cur_group.id != None %}
-            <div class="row">
-                <form action="{% url 'Posts:post_create' cur_group.id %}" method="post">
-                    {% csrf_token %}
-                    <div class="form-update">
-                        <div class="form-group" style="
-                            width: 90%;
-                            display: inline-block;
-                            ">
-                            <label for="id_text" class="sr-only"></label>
-                            <input type="text" class="form-control" id="id_text" name="text"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">New Post</button>
-                    </div>
-                </form>
-            </div>
-            {% endif %}
         </div>
     </div>
 </div>
