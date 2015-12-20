@@ -14,6 +14,7 @@ urlpatterns = [
     url(r"^logout/$", user_views.logout, name="logout"),
     url(r"^signup/$", user_views.signup, name="signup"),
     url(r'^messages/', include('django_messages.urls')),
-]
+    url(r'^feedreader/', include('feedreader.urls', namespace='feedreader')),
+    ]
 
 urlpatterns += static.static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
