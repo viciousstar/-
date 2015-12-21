@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load usertag %}
 {% block headblock %}
+{{form.media}}
 {% endblock headblock %}
 {% block content %}
 <div id="content" class="container-fluid main">
@@ -31,7 +33,7 @@
                     {% csrf_token %}
                     <div class="inline-post">
                             <label for="id_text" class="sr-only"></label>
-                            <textarea name="text" id="id_text" class="form-control" rows="2"></textarea>
+                            <textarea name="text" id="id_text" class="form-control" rows="2" placeholder="you can use markdown"></textarea>
                             <div>
                             <button type="submit" class="btn btn-primary">New Post</button>
                             </div>
@@ -54,7 +56,7 @@
                             </div>
                             <div class="row">
                                 <div class="post">
-                                    <p>{{post.text}}</p>
+                                    {{post.text|markdownify|safe}}
                                 </div>
                             </div>
                         </div>

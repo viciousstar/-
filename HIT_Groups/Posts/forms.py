@@ -1,8 +1,9 @@
 from .models import Post
-from django.forms import ModelForm
+from django import forms
+from pagedown.widgets import PagedownWidget
 
-class PostForm(ModelForm):
-
+class PostForm(forms.ModelForm):
+    text = forms.CharField(widget=PagedownWidget())
     class Meta:
         model = Post
-        fields = ("text",)
+        fields = ("text", )

@@ -47,7 +47,7 @@ INSTALLED_APPS = (
     'django_messages',
     'stronghold',
     'feedreader',
-
+    'pagedown',     #for markdown editor
 
 )
 

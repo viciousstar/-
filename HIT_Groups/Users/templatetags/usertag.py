@@ -1,4 +1,5 @@
 from django import template
+import markdown
 register = template.Library()
 
 @register.filter(name='is_current_user_profile')
@@ -22,3 +23,8 @@ def add_attributes(field, css):
             attrs[t] = v
 
     return field.as_widget(attrs=attrs)
+
+@register.filter
+def markdownify(text):
+    # safe_mode governs how the function handles raw HTML
+    return markdown.markdown(text, safe_mode='escape')
