@@ -4,6 +4,7 @@ from django.contrib.auth import login as django_login
 from django.contrib.auth import logout as django_logout
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.http import HttpResponseRedirect, HttpResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from Users.models import MyUser
 from Users.forms import MyUserForm
 from HIT_Groups.settings import LOGIN_REDIRECT_URL, LOGOUT_REDIRECT_URL
@@ -11,17 +12,27 @@ from HIT_Groups.settings import LOGIN_REDIRECT_URL, LOGOUT_REDIRECT_URL
 
 def root(request, format=None):
     posts = []
+    cur_group = None
+    groups = []
     if request.user.is_authenticated():
-        groups = request.user.my_groups.all()
+        groups = request.user.get_last_groups()
         if "group" in request.GET:
-            cur_group = request.user.my_groups.get(id=int(request.GET["group"]))
-            posts.extend(cur_group.post_group.all())
-            return render(request, "Users/index.html", {"groups": groups, "cur_group": cur_group, "posts": posts})
+            cur_group = request.user.get_group_by_id(int(request.GET["group"]))
+            posts.extend(cur_group.GetLastPost())
         else:
             for p in groups:
-                posts.extend(p.post_group.all())
-            return render(request, "Users/index.html", {"groups": groups, "cur_group": [], "posts": posts})
-    return render(request, "Users/index.html", {"groups": [], "cur_group": [], "posts": posts})
+                posts.extend(p.GetLastPost())
+        paginator = Paginator(posts, 20)
+        page = request.GET.get('page')
+        try:
+            page_posts = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            page_posts = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            page_posts = paginator.page(paginator.num_pages)
+    return render(request, "Users/index.html", {"groups": groups, "cur_group": cur_group, "posts": page_posts})
 
 
 

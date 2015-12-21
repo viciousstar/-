@@ -33,6 +33,10 @@ class Group(models.Model):
         post_list = group.post_group.all()
         return post_list
 
+    def GetLastPost(group):
+        post_list = group.post_group.all().order_by("-posted_time")
+        return post_list
+
 class ContactForm(ModelForm):
     class Meta:
         model = Group

@@ -63,6 +63,29 @@
                     <p></p>
                 </div>
             </div>
+            <div class="pagination">
+                <span class="step-links">
+                    {% if posts.has_previous %}
+                        {% if cur_group %}
+                        <a href="{{request.get_path}}?group={{cur_group.id}}&page={{ posts.previous_page_number }}">previous</a>
+                        {% else %}
+                        <a href="{{request.get_path}}?page={{ posts.previous_page_number }}">previous</a>
+                        {% endif %}
+                    {% endif %}
+
+                    <span class="current">
+                        Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+                    </span>
+
+                    {% if posts.has_next %}
+                        {% if cur_group %}
+                        <a href="{{request.get_path}}?group={{cur_group.id}}&page={{ posts.next_page_number }}">next</a>
+                        {% else %}
+                        <a href="{{request.get_path}}?page={{ posts.next_page_number }}">next</a>
+                        {% endif %}
+                    {% endif %}
+                </span>
+            </div>
         </div>
     </div>
 </div>

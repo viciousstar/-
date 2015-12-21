@@ -59,3 +59,8 @@ class MyUser(AbstractUser):
     def creator(self):
         return self
 
+    def get_group_by_id(self, id):
+        return self.my_groups.get(id=id)
+
+    def get_last_groups(self):
+        return self.my_groups.order_by('-update_time')

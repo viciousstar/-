@@ -32,6 +32,9 @@
         </div>
         {% if request.path|is_current_user_profile:user %}
         <button type="submit" class="btn btn-primary">Update</button>
+        <div class="text-center">
+        <a href="{%url 'change_password' %}" class="btn btn-primary">Change Password</a>
+        </div>
         {% else %}
         <div class="profile-button text-center">
         <a href="{%url 'messages_compose_to' form.username.value%}" class="btn btn-primary">Send Message</a>
