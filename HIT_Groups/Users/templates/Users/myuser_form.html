@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load i18n %}
 {% load usertag %}
 {% block headblock %}
 <link href="{% static "css/updateform.css" %}" rel="stylesheet">
@@ -8,25 +9,37 @@
 <form action="" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-update">
+        {% if form.errors and not form.non_field_errors %}
+        <p class="errornote">
+        {% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
+        </p>
+        {% endif %}
+
+        {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+        <p class="errornote">
+            {{ error }}
+        </p>
+        {% endfor %}
+        {% endif %}
         <div class="row">
             <div class="col-md-8">
                 <div class="form-group-lg">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" value="{{form.username.value}}">
+                {{ form.username.errors }}
+                {{ form.username.label_tag }}
+                {{ form.username|add_attributes:'form-control,required:'}}
                 </div>
                 <div class="form-group-lg">
-                    <label for="email">Email</label>
-                    <input type="text" class="form-control" id="email" name="email" value="{{form.email.value}}">
+                {{ form.email.errors }}
+                {{ form.email.label_tag }}
+                {{ form.email|add_attributes:'form-control,required:'}}
                 </div>
             </div>
             <div class="col-md-4">
                     <p><img src="{{ form.instance.avatar.url }}" width="100" height="100" class="avatar"/></p>
                 <div class="form-group-lg">
                     <label for="avatar" class="sr-only"></label>
-                    {# <a class="btn btn-primary btn-upload"> #}
-                    {# <span>上传</span> #}
                     <input type="file" id="avatar" name="avatar">
-                    {# </a> #}
                 </div>
             </div>
         </div>

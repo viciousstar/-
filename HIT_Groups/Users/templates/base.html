@@ -46,10 +46,6 @@
                     <li><a href="/about">About</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    {% if not user.is_authenticated %}
-                        <li><a href="{% url 'signup' %}">Sign up</a></li>
-                        <li><a href="{% url 'login' %}">Log in</a></li>
-                    {% else %}
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.username}} <span class="caret"></span></a>
                             <ul class="dropdown-menu">
@@ -58,7 +54,6 @@
                                 <li><a href="{% url 'logout' %}">Log out</a></li>
                             </ul>
                         </li>
-                    {% endif %}
                 </ul>
             </div>
         </div>
@@ -74,11 +69,7 @@
         </div>
     {% endblock content %}
     </div>
-    {# for  django-feedreader#}
     <hr size="1">
-    <div id="footer" style="font-size:.9em;padding-left:1em; margin-top:1em;">
-        {% block footer %}{% endblock %}
-    </div>
     <footer class="footer">
       <p>HIT SE project <a href="https://github.com/viciousstar/SE-Project-HIT">HIT Groups</a> by <a href="#">HITer</a>.</p>
       <p>
