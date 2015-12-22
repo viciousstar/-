@@ -1,11 +1,8 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
-
 from django.utils import timezone
-
 from .models import Group, ContactForm
-
-from Users.models import UsersAndGroups,MyUser
+from Users.models import UsersAndGroups, MyUser
 
 
 def GroupsIndex(request):
@@ -16,20 +13,22 @@ def GroupsIndex(request):
 
 def GroupDetail(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
-    list=group.GetPost()
-    return render(request, 'Groups/GroupDetail.html', {'group': group,"list":list})
+    list = group.GetPost()
+    return render(request, 'Groups/GroupDetail.html', {'group': group, "list": list})
 
 
 def GroupModify(request, group_id):
     group = get_object_or_404(Group, pk=group_id)
     if group.CanModifyGroups(request.user):
         if request.method == 'POST':
-            form = ContactForm(request.POST)
+            form = ContactForm(request.POST, request.FILES)
             if form.is_valid():
+                image = request.FILES["image"]
                 name = form.cleaned_data["name"]
                 description = form.cleaned_data["description"]
                 tag = form.cleaned_data["tag"]
                 permit = form.cleaned_data["permit"]
+                group.image = image
                 group.name = name
                 group.description = description
                 group.tag = tag
@@ -46,16 +45,20 @@ def GroupModify(request, group_id):
 
 def GroupCreate(request):
     if request.method == 'POST':
-        form = ContactForm(request.POST) 
-        if form.is_valid(): 
-            name = form.cleaned_data["name"]
-            description = form.cleaned_data["description"]
-            tag = form.cleaned_data["tag"]
-            permit = form.cleaned_data["permit"]
-            group = Group(name=name, create_time=timezone.now(), update_time=timezone.now(),
-                          description=description, tag=tag, permit=permit)
+        form = ContactForm(request.POST, request.FILES)
+        if form.is_valid():
+            # image = request.FILES["image"]
+            # name = form.cleaned_data["name"]
+            # description = form.cleaned_data["description"]
+            # tag = form.cleaned_data["tag"]
+            # permit = form.cleaned_data["permit"]
+            group=form.save(commit=False)
+            group.create_time = timezone.now()
+            group.update_time = timezone.now()
+            # group = Group(image=image, name=name, create_time=timezone.now(), update_time=timezone.now(),
+            #               description=description, tag=tag, permit=permit)
             group.save()
-            uag = UsersAndGroups.objects.create(user_id = request.user,group_id = group,user_role = 'Creator')
+            uag = UsersAndGroups.objects.create(user_id=request.user, group_id=group, user_role='Creator')
             uag.save()
             return HttpResponseRedirect('/groups/')
     else:
@@ -71,17 +74,13 @@ def GroupDelete(request, group_id):
     else:
         return HttpResponse("Sorry, you do not have the permission.")
 
-def AddUser(request,group_id):
+
+def AddUser(request, group_id):
     group = Group.objects.get(pk=group_id)
     user_list = group.myuser_set.all()
     if request.user not in user_list:
-        uag = UsersAndGroups.objects.create(user_id = request.user,group_id = group,user_role = 'User')
+        uag = UsersAndGroups.objects.create(user_id=request.user, group_id=group, user_role='User')
         uag.save()
         return HttpResponseRedirect('/')
     else:
         return HttpResponse("already in this group")
-
-
-
-
-
