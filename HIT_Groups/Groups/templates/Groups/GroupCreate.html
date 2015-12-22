@@ -9,10 +9,14 @@
 
 <h1 align="center">创建一个圈子</h1>
 
-<form action="{% url 'Groups:GroupCreate'%}" method="post">
+<form action="{% url 'Groups:GroupCreate'%}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-update">
         <div class="row">
+                <div class="form-group-lg">
+                    <label for="image">file</label>
+                    <input type="file" class="form-control" id="image" name="image" placeholder="{{form.name.value}}">
+                </div>
                 <div class="form-group-lg">
                     <label for="name">name</label>
                     <input type="text" class="form-control" id="name" name="name" placeholder="{{form.name.value}}">
