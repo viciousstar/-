@@ -1,6 +1,4 @@
 from django.db import models
-from django.forms import ModelForm
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 
 class Group(models.Model):
@@ -39,7 +37,3 @@ class Group(models.Model):
         return post_list
 
 
-class ContactForm(ModelForm):
-    class Meta:
-        model = Group
-        fields = ('image', 'name', 'description', 'tag', 'permit')

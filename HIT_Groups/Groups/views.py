@@ -1,13 +1,24 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, render_to_response
 from django.utils import timezone
-from .models import Group, ContactForm
+from .models import Group
+from .forms import ContactForm
 from Users.models import UsersAndGroups, MyUser
 
 
-def GroupsIndex(request):
+def GroupsIndex(request,format=None):
     group_list = Group.objects.order_by('-update_time')
-    context = {'group_list': group_list}
+    posts = []
+    if group_list:
+        cur_group = group_list[0]
+        posts = cur_group.GetLastPost()
+    else:
+        cur_group = None
+    if request.user.is_authenticated():
+        if "group" in request.GET:
+            cur_group = Group.objects.get(pk=(int(request.GET["group"])))
+            posts = cur_group.GetLastPost()
+    context = {'group_list': group_list, 'cur_group': cur_group, 'posts': posts}
     return render(request, 'Groups/Groupindex.html', context)
 
 

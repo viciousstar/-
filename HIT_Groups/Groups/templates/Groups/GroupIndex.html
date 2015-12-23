@@ -5,81 +5,98 @@
 {% endblock headblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-2">
-        <ul class="nav nav-pills nav-stacked">
-            <li class="active">
-                <a href="#">All Groups</a>
-            </li>
-            {% if group_list %}
-            {% for group in group_list %}
-            <li><a href="{% url 'Groups:GroupDetail' group.id %}">{{ group.name }}</a></li>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <button type="button" class="btn btn-info btn-sm btn btn-primary btn-lg btn-block">所有圈子</button>
+            <ul class="nav nav-pills nav-stacked">
+                <li class="center-block"><a href="{% url 'Groups:GroupCreate' %}" class="center-block">创建一个圈子</a></li>
+                {% if group_list %}
+                {% for group in group_list %}
+                <li class="{%if group.id == cur_group.id %} active {%endif%}"><a
+                        href="{% url 'Groups:GroupsIndex' %}?group={{group.id}}">#{{group.name}}</a></li>
+                {% endfor %}
+                {% else %}
+                <p>No groups are available</p>
+                {% endif %}
+        </div>
+        <div class="col-md-6">
+            <button type="button" class="btn btn-info btn-sm btn btn-primary btn-lg btn-block">圈子详细信息</button>
+            <div class="row">
+                <div class="col-md-6">
+                    {% if cur_group %}
+                    <img src="{{ cur_group.image.url }}" height="200" class="img-thumbnail" alt="Responsive image">
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                    <h3><span class="label label-success">{{cur_group.tag}}</span></h3>
+                    <p class="text-primary">{{cur_group.description}}</p>
+                    {% if cur_group.permit %}
+                    <p class="text-success">this group allow user add posts!!</p>
+                    {% else %}
+                    <p class="text-warning">this group doesn't allow user add posts!!</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="center-block"><a href="{% url 'Groups:GroupAdd' cur_group.id %}"
+                                                    class="center-block">加入该圈子</a></li>
+                </div>
+                <div class="col-md-4">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="center-block"><a href="{% url 'Groups:GroupDelete' cur_group.id %}"
+                                                    class="center-block">删除该圈子</a></li>
+                </div>
+                <div class="col-md-4">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="center-block"><a href="{% url 'Groups:GroupModify' cur_group.id %}"
+                                                    class="center-block">修改该圈子</a></li>
+                </div>
+            </div>
+            <button type="button" class="btn btn-success btn-sm btn btn-primary btn-lg btn-block">圈子所有动态</button>
+            {% if posts %}
+            {% for post in posts %}
+            <div class="row">
+                <div class="col-md-2">
+                    <img src="{{post.author.avatar.url}}" class="img-thumbnail" alt="Responsive image">
+                </div>
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p class="text-info">{{post.author.username}}</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p class="text-muted">{{post.posted_time.time}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 center-block">
+                    <p class="bg-success center-block">{{post.text}}</p>
+                </div>
+            </div>
             {% endfor %}
-            {% else %}
-            <p>No groups are available.</p>
             {% endif %}
-            <li><a href="{% url 'Groups:GroupCreate' %}">创建一个圈子</a></li>
-        </ul>
-    </div>
-    <div class="col-md-2">
-        <ul class="nav nav-pills nav-stacked">
-            <li class="active">
-                <a href="#">圈子相关信息</a>
-            </li>
-            {% if group_list %}
-            {% for group in group_list %}
-            <li><a href="#">圈子的描述信息为{{group.description}}</a></li>
+        </div>
+        <div class="col-md-3">
+            <button type="button" class="btn btn-info btn-sm btn btn-primary btn-lg btn-block">该圈子中的用户</button>
+            {%for u in cur_group.myuser_set.all %}
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="{{u.avatar.url}}" class="img-thumbnail" alt="Responsive image">
+                    </div>
+                    <div class="col-md-4">
+                        <a href="/users/{{user.id}}">{{u.username}}</a>
+                    </div>
+                </div>
             {% endfor %}
-            {% else %}
-            <p>No groups are available.</p>
-            {% endif %}
-        </ul>
-    </div>
-    <div class="col-md-2">
-        <ul class="nav nav-pills nav-stacked">
-            <li class="active">
-                <a href="#">加入该圈子</a>
-            </li>
-            {% if group_list %}
-            {% for group in group_list %}
-            <li><a href="{% url 'Groups:GroupAdd' group.id %}">加入该圈子</a></li>
-            {% endfor %}
-            {% else %}
-            <p>No groups are available.</p>
-            {% endif %}
-        </ul>
-    </div>
-    <div class="col-md-2">
-        <ul class="nav nav-pills nav-stacked">
-            <li class="active">
-                <a href="#">删除该圈子</a>
-            </li>
-            {% if group_list %}
-            {% for group in group_list %}
-            <li><a href="{% url 'Groups:GroupDelete' group.id %}">删除这个圈子</a></li>
-            {% endfor %}
-            {% else %}
-            <p>No groups are available.</p>
-            {% endif %}
-        </ul>
+        </div>
     </div>
 </div>
-
-</div>
-
 
 {% endblock content %}
 
 
-<!--{% if group_list %}-->
-<!--<ul>-->
-<!--{% for group in group_list %}-->
-<!--<li><a href="{% url 'Groups:GroupDetail' group.id %}">{{ group.name }}</a></li>-->
-<!--<a href="{% url 'Groups:GroupAdd' group.id %}">加入该圈子</a>-->
-<!--<a href="{% url 'Groups:GroupDelete' group.id %}">删除这个圈子</a>-->
-<!--{% endfor %}-->
-<!--</ul>-->
-<!--{% else %}-->
-<!--<p>No groups are available.</p>-->
-<!--{% endif %}-->
-<!--<a href="{% url 'Groups:GroupCreate' %}">创建一个圈子</a></li>-->
