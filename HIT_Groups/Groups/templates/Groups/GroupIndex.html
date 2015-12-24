@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load usertag %}
 {% block headblock %}
 <link href="{% static " css/groups.css" %}" rel="stylesheet">
 {% endblock headblock %}
@@ -85,7 +86,7 @@
                     </div>
                 </div>
                 <div class="col-md-6 center-block">
-                    <p class="bg-success center-block">{{post.text}}</p>
+                    <p class="bg-success center-block">{{post.text|markdownify|safe}}</p>
                 </div>
             </div>
             {% endfor %}
