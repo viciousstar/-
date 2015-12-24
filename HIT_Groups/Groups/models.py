@@ -28,6 +28,13 @@ class Group(models.Model):
         else:
             return True
 
+    def UserInGroup(self, user):
+        user_list = self.myuser_set.all()
+        if user in user_list:
+            return True
+        else:
+            return False
+
     def GetPost(group):
         post_list = group.post_group.all()
         return post_list

@@ -9,6 +9,7 @@ from Users.models import UsersAndGroups, MyUser
 def GroupsIndex(request,format=None):
     group_list = Group.objects.order_by('-update_time')
     posts = []
+
     if group_list:
         cur_group = group_list[0]
         posts = cur_group.GetLastPost()
@@ -18,7 +19,9 @@ def GroupsIndex(request,format=None):
         if "group" in request.GET:
             cur_group = Group.objects.get(pk=(int(request.GET["group"])))
             posts = cur_group.GetLastPost()
-    context = {'group_list': group_list, 'cur_group': cur_group, 'posts': posts}
+    IsAdd = cur_group.UserInGroup(request.user)
+    IsCreator = request.user.has_role_creator(cur_group)
+    context = {'group_list': group_list, 'cur_group': cur_group, 'posts': posts,'IsAdd':IsAdd,'IsCreator':IsCreator}
     return render(request, 'Groups/Groupindex.html', context)
 
 

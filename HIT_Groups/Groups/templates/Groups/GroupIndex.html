@@ -29,7 +29,18 @@
                     {% endif %}
                 </div>
                 <div class="col-md-6">
-                    <h3><span class="label label-success">{{cur_group.tag}}</span></h3>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h3><span class="label label-success">{{cur_group.tag}}</span></h3>
+                        </div>
+                        <div class="col-md-8">
+                            {% if not IsAdd %}
+                            <ul class="nav nav-pills nav-stacked">
+                                <li class="center-block"><a href="{% url 'Groups:GroupAdd' cur_group.id %}"
+                                                            class="center-block">加入该圈子</a></li>
+                                {% endif %}
+                        </div>
+                    </div>
                     <p class="text-primary">{{cur_group.description}}</p>
                     {% if cur_group.permit %}
                     <p class="text-success">this group allow user add posts!!</p>
@@ -38,24 +49,21 @@
                     {% endif %}
                 </div>
             </div>
+            {% if IsCreator %}
             <div class="row">
-                <div class="col-md-4">
-                    <ul class="nav nav-pills nav-stacked">
-                        <li class="center-block"><a href="{% url 'Groups:GroupAdd' cur_group.id %}"
-                                                    class="center-block">加入该圈子</a></li>
-                </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <ul class="nav nav-pills nav-stacked">
                         <li class="center-block"><a href="{% url 'Groups:GroupDelete' cur_group.id %}"
                                                     class="center-block">删除该圈子</a></li>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <ul class="nav nav-pills nav-stacked">
                         <li class="center-block"><a href="{% url 'Groups:GroupModify' cur_group.id %}"
                                                     class="center-block">修改该圈子</a></li>
                 </div>
             </div>
-            <button type="button" class="btn btn-success btn-sm btn btn-primary btn-lg btn-block">圈子所有动态</button>
+            {% endif %}
+            <!--<button type="button" class="btn btn-success btn-sm btn btn-primary btn-lg btn-block">圈子所有动态</button>-->
             {% if posts %}
             {% for post in posts %}
             <div class="row">
@@ -84,14 +92,14 @@
         <div class="col-md-3">
             <button type="button" class="btn btn-info btn-sm btn btn-primary btn-lg btn-block">该圈子中的用户</button>
             {%for u in cur_group.myuser_set.all %}
-                <div class="row">
-                    <div class="col-md-4">
-                        <img src="{{u.avatar.url}}" class="img-thumbnail" alt="Responsive image">
-                    </div>
-                    <div class="col-md-4">
-                        <a href="/users/{{user.id}}">{{u.username}}</a>
-                    </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="{{u.avatar.url}}" class="img-thumbnail" alt="Responsive image">
                 </div>
+                <div class="col-md-4">
+                    <a href="/users/{{u.id}}">{{u.username}}</a>
+                </div>
+            </div>
             {% endfor %}
         </div>
     </div>
