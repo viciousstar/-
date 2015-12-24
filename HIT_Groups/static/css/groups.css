@@ -125,4 +125,5 @@ h6, .h6 {
 
 .inline-post button {
   float: right;
+  margin-top: 10px;
 }

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load usertag %}
+{% load comments %}
+{% block headblock %}
+<link href="{% static 'css/updateform.css' %}" rel="stylesheet">
+{% endblock headblock %}
+{% block content %}
+<div id="content" class="container-fluid main">
+    <div class="form-update post-list">
+        <div class="row">
+            <div class="col-md-1">
+                <img src="{{ post.author.avatar.url }}" class="avatar" />
+            </div>
+            <div class="col-md-11">
+                <div class="row">
+                    <p class="post-meta"><a href="{% url 'Users:UserUpdate' post.author.id%}">{{post.author.username}}</a></p>
+                    <p class="post-meta">{{post.posted_time}}</p>
+                </div>
+                <div class="row">
+                    <div class="post">
+                        {{post.text|markdownify|safe}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form action="{% url 'Posts:post_detail' post.id %}" method="post">
+            {% csrf_token %}
+            <div class="form-group-lg">
+                <div class="inline-post row">
+                        <label for="id_text" class="sr-only"></label>
+                        <textarea name="text" id="id_text" class="form-control" rows="2" placeholder="you can use markdown"></textarea>
+                        <div>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 10px">Comment</button>
+                        </div>
+                </div>
+            </div>
+        </form>
+        <p class="post-meta">Comments:</p>
+        <hr>
+        {% for comment in comments %}
+        <div class="row">
+            <div class="col-md-1">
+                <img src="{{ comment.author.avatar.url }}" class="avatar" />
+            </div>
+            <div class="col-md-11">
+                <div class="row">
+                    <p class="post-meta"><a href="{% url 'Users:UserUpdate' comment.author.id%}">{{comment.author.username}}</a></p>
+                    <p class="post-meta">{{comment.commented_time}}</p>
+                </div>
+                <div class="row">
+                    <div class="comment">
+                        {{comment.text|markdownify|safe}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

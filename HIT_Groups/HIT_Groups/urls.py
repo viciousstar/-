@@ -2,13 +2,14 @@ from django.conf.urls import include, url, static
 from django.contrib import admin
 from django.contrib.auth import views
 from Users import views as user_views
+from Posts import views as post_views
 from . import settings
 
 
 urlpatterns = [
     url(r'^groups/', include('Groups.urls', namespace="Groups")),
     url(r'^users/', include('Users.urls', namespace="Users")),
-    url(r'^groups/(?P<group_id>[0-9]+)/posts/', include('Posts.urls', namespace='Posts')),
+    url(r'^posts/', include('Posts.urls', namespace='Posts')),
     url(r'^admin/', include(admin.site.urls)),
     url(r"^$", user_views.root, name="root"),
     url(r"^login/$", views.login, {"template_name": "Users/login.html"}, name="login"),

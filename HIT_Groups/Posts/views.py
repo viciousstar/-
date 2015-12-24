@@ -1,25 +1,16 @@
 from django.shortcuts import render, get_list_or_404
 from django.http import HttpResponse, HttpResponseRedirect
-from django_comments.forms import CommentForm
-from django_comments.models import Comment
-
+from .forms import CommentForm
+from .models import Comment
 from django.utils import timezone
-
-from .models import Post, UsersLike
+from .models import Post
 from Groups.models import Group
 from .forms import PostForm
 
 
-# Create your views here.
-def post_index(request, group_id):
-    print(group_id)
-    post_list = get_list_or_404(Post, group=group_id)
-    return render(request, 'Posts/post_index.html', {'post_list': post_list, 'group_id': group_id, 'request': request})
-
-
-def post_create(request, group_id):
-    group = Group.objects.get(pk=group_id)
+def post_create(request):
     if request.method == 'POST':
+        group = Group.objects.get(pk=request.GET["group"])
         form = PostForm(request.POST)
         if form.is_valid() and group.CanAddPosts(request.user):
             post = Post(
@@ -29,38 +20,38 @@ def post_create(request, group_id):
                 posted_time=timezone.now()
                 )
             post.save()
-            return HttpResponseRedirect("/?group=" + str(group_id))
+            return HttpResponseRedirect("/?group=" + str(group.id))
     else:
         form = PostForm()
-    return render(request, 'Posts/post_create.html', {'form': form, 'group_id': group_id})
+    return render(request, 'Posts/post_create.html', {'form': form})
 
 
-def post_delete(request, group_id, post_id):
+def post_delete(request, post_id):
     post = Post.objects.get(pk=post_id)
     if post.creator() == request.user:
         post.delete()
-    return HttpResponseRedirect('/groups/' + group_id + '/posts/')
+    return HttpResponseRedirect("/")
 
 
-def post_comment(request, group_id, post_id):
+def post_detail(request, post_id):
     post = Post.objects.get(pk=post_id)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = Comment(
-                user=request.user if request.user.is_active else None,
-                content_object=post,
-                comment=form.cleaned_data["comment"],
-                name=request.user.name
+                author=request.user,
+                post=post,
+                text=form.cleaned_data["text"],
+                commented_time=timezone.now()
             )
             comment.save()
-            return HttpResponseRedirect('/groups/' + group_id + '/posts/')
+            return HttpResponseRedirect('/posts/' + str(post.id))
     else:
-        form = CommentForm(post)
-    return render(request, 'Posts/post_comment.html', {'form': form, 'post': post, 'group_id': group_id})
+        form = CommentForm()
+    return render(request, 'Posts/post_detail.html', {'form': form, 'post': post, "comments": post.comment_set.all().order_by("-commented_time")})
 
 
-def post_update(request, group_id, post_id):
+def post_update(request, post_id):
     post = Post.objects.get(pk=post_id)
     if request.method == 'POST':
         form = PostForm(request.POST)
@@ -68,18 +59,8 @@ def post_update(request, group_id, post_id):
         if form.is_valid() and (request.user == post.creator()):
             post.text = form.cleaned_data['text']
             post.save()
-            return HttpResponseRedirect('/groups/' + group_id + '/posts/')
+            return HttpResponseRedirect('/?group=' + str(post.group.id))
     else:
-        form = PostForm()
-    return render(request, 'Posts/post_update.html', {'form': form, 'group_id':group_id,'post_id': post_id})
-
-def post_like(request, group_id, post_id):
-    post = Post.objects.get(pk=post_id)
-    ul = UsersLike.objects.create(user=request.user if request.user.is_active else None, post=post)
-    ul.save()
-    return HttpResponseRedirect('/groups/' + group_id + '/posts/')
-
-def post_like_count(post_id):
-    post = Post.objects.get(pk=post_id)
-    return len(post.users_like_set.all())
+        form = PostForm(instance=post)
+    return render(request, 'Posts/post_update.html', {'form': form, 'post_id': post_id})
 

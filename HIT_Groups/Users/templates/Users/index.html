@@ -2,7 +2,6 @@
 {% load staticfiles %}
 {% load usertag %}
 {% block headblock %}
-{{form.media}}
 {% endblock headblock %}
 {% block content %}
 <div id="content" class="container-fluid main">
@@ -17,19 +16,22 @@
                 {% endfor %}
             </ul>
         </div>
-        <div class="col-md-10">
+        <div class="col-md-10" style="border-left-width: 1px;border-left-style: solid;border-left-color: rgb(238, 238, 238);">
+        <div>
             {% if cur_group %}
             <div class="row">
                 <div class="dropdown group-dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{cur_group.name}} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="{% url 'Groups:GroupDetail' cur_group.id %}">Detial</a></li>
+                        <li><a href="{% url 'Groups:GroupsIndex' %}?group={{cur_group.id}}">Preference</a></li>
+                        <li><a href="{% url 'Groups:GroupModify' cur_group.id %}">Modify</a></li>
+                        <li><a href="">Let out</a></li>
                     </ul>
                 </div>
             </div>
             {% if cur_group.id != None %}
             <div class="row">
-                <form action="{% url 'Posts:post_create' cur_group.id %}" method="post">
+                <form action="{% url 'Posts:post_create'%}?group={{cur_group.id}}" method="post">
                     {% csrf_token %}
                     <div class="inline-post">
                             <label for="id_text" class="sr-only"></label>
@@ -45,14 +47,27 @@
             <div class="row">
                 <div class="post-list">
                     {% for post in posts %}
+                    {# <hr> #}
                     <div class="row">
                         <div class="col-md-1">
                             <img src="{{ post.author.avatar.url }}" class="avatar" />
                         </div>
-                        <div class="col-md-11">
+                        <div class="col-md-11" style="width: 95%">
                             <div class="row">
-                                <p class="post-meta"><a href="{% url 'Users:UserUpdate' post.author.id%}">{{post.author.username}}</a></p>
-                                <p class="post-meta">{{post.posted_time}}</p>
+                                <div class="col-md-11">
+                                    <p class="post-meta"><a href="{% url 'Users:UserUpdate' post.author.id%}">{{post.author.username}}</a></p>
+                                    <p class="post-meta">{{post.posted_time}}</p>
+                                </div>
+                                <div class="dropdown group-dropdown" style="float: right">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">more<span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{% url 'Posts:post_detail' post.id %}">Comment</a></li>
+                                        {% ifequal user post.author %}
+                                        <li><a href="{% url 'Posts:post_update' post.id %}">Modify</a></li>
+                                        <li><a href="{% url 'Posts:post_delete' post.id %}">Delete</a></li>
+                                        {% endifequal %}
+                                    </ul>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="post">
@@ -88,6 +103,7 @@
                     {% endif %}
                 </span>
             </div>
+        </div>
         </div>
     </div>
 </div>
