@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load usertag %}
 {% block headblock %}
 <link href="{% static " css/groups.css" %}" rel="stylesheet">
 {% endblock headblock %}
@@ -8,9 +9,9 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            <button type="button" class="btn btn-info btn-sm btn btn-primary btn-lg btn-block">所有圈子</button>
+            <button type="button" class="btn btn-info btn-sm btn btn-primary btn-lg btn-block">all groups</button>
             <ul class="nav nav-pills nav-stacked">
-                <li class="center-block"><a href="{% url 'Groups:GroupCreate' %}" class="center-block">创建一个圈子</a></li>
+                <li class="center-block"><a href="{% url 'Groups:GroupCreate' %}" class="center-block">create a group</a></li>
                 {% if group_list %}
                 {% for group in group_list %}
                 <li class="{%if group.id == cur_group.id %} active {%endif%}"><a
@@ -21,28 +22,26 @@
                 {% endif %}
         </div>
         <div class="col-md-6">
-            <button type="button" class="btn btn-info btn-sm btn btn-primary btn-lg btn-block">圈子详细信息</button>
+            <button type="button" class="btn btn-info btn-sm btn btn-primary btn-lg btn-block">the details of the group</button>
             <div class="row">
                 <div class="col-md-6">
                     {% if cur_group %}
                     <img src="{{ cur_group.image.url }}" height="200" class="img-thumbnail" alt="Responsive image">
                     {% endif %}
+                            {% if not IsAdd %}
+                            <ul class="nav nav-pills nav-stacked">
+                                <li class="center-block"><a href="{% url 'Groups:GroupAdd' cur_group.id %}"
+                                                            class="center-block">join the group</a></li>
+                            {% else %}
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li class="center-block"><a href="{% url 'Groups:GroupLeave' cur_group.id %}"
+                                                                class="center-block">leave the group</a></li>
+                            {% endif %}
                 </div>
                 <div class="col-md-6">
                     <div class="row">
                         <div class="col-md-4">
                             <h3><span class="label label-success">{{cur_group.tag}}</span></h3>
-                        </div>
-                        <div class="col-md-8">
-                            {% if not IsAdd %}
-                            <ul class="nav nav-pills nav-stacked">
-                                <li class="center-block"><a href="{% url 'Groups:GroupAdd' cur_group.id %}"
-                                                            class="center-block">加入该圈子</a></li>
-                            {% else %}
-                                <ul class="nav nav-pills nav-stacked">
-                                    <li class="center-block"><a href="{% url 'Groups:GroupLeave' cur_group.id %}"
-                                                                class="center-block">离开该圈子</a></li>
-                            {% endif %}
                         </div>
                     </div>
                     <p class="text-primary">{{cur_group.description}}</p>
@@ -58,12 +57,12 @@
                 <div class="col-md-6">
                     <ul class="nav nav-pills nav-stacked">
                         <li class="center-block"><a href="{% url 'Groups:GroupDelete' cur_group.id %}"
-                                                    class="center-block">删除该圈子</a></li>
+                                                    class="center-block">delete the group</a></li>
                 </div>
                 <div class="col-md-6">
                     <ul class="nav nav-pills nav-stacked">
                         <li class="center-block"><a href="{% url 'Groups:GroupModify' cur_group.id %}"
-                                                    class="center-block">修改该圈子</a></li>
+                                                    class="center-block">modify the group</a></li>
                 </div>
             </div>
             {% endif %}
@@ -87,14 +86,14 @@
                     </div>
                 </div>
                 <div class="col-md-6 center-block">
-                    <p class="bg-success center-block">{{post.text}}</p>
+                    <p class="bg-success center-block">{{post.text|markdownify|safe}}</p>
                 </div>
             </div>
             {% endfor %}
             {% endif %}
         </div>
         <div class="col-md-3">
-            <button type="button" class="btn btn-info btn-sm btn btn-primary btn-lg btn-block">该圈子中的用户</button>
+            <button type="button" class="btn btn-info btn-sm btn btn-primary btn-lg btn-block">all users of the group</button>
             {%for u in cur_group.myuser_set.all %}
             <div class="row">
                 <div class="col-md-4">
