@@ -25,7 +25,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="{% url 'Groups:GroupsIndex' %}?group={{cur_group.id}}">Preference</a></li>
                         <li><a href="{% url 'Groups:GroupModify' cur_group.id %}">Modify</a></li>
-                        <li><a href="">Let out</a></li>
+                        <li><a href="{% url 'Groups:GroupLeave' cur_group.id %}">Leave</a></li>
                     </ul>
                 </div>
             </div>
