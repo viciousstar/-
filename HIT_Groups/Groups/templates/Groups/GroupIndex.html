@@ -38,7 +38,11 @@
                             <ul class="nav nav-pills nav-stacked">
                                 <li class="center-block"><a href="{% url 'Groups:GroupAdd' cur_group.id %}"
                                                             class="center-block">加入该圈子</a></li>
-                                {% endif %}
+                            {% else %}
+                                <ul class="nav nav-pills nav-stacked">
+                                    <li class="center-block"><a href="{% url 'Groups:GroupLeave' cur_group.id %}"
+                                                                class="center-block">离开该圈子</a></li>
+                            {% endif %}
                         </div>
                     </div>
                     <p class="text-primary">{{cur_group.description}}</p>
