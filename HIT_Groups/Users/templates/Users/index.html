@@ -11,6 +11,9 @@
                 <li>
                     <a href="{% url 'root' %}" >All Posts</a>
                 </li>
+                {% if not groups %}
+                    <h4>No groups,go to <a href="{% url 'Groups:GroupsIndex' %}">add groups</a></h4>
+                {% endif %}
                 {% for group in groups %}
                 <li class="{%if group.id == cur_group.id %} active {%endif%}"><a href="{% url 'root' %}?group={{group.id}}"># {{group.name}}</a></li>
                 {% endfor %}
@@ -46,6 +49,9 @@
             {% endif %}
             <div class="row">
                 <div class="post-list">
+                    {% if not posts %}
+                        <h4>No posts</h4>
+                    {% endif %}
                     {% for post in posts %}
                     {# <hr> #}
                     <div class="row">
@@ -64,7 +70,7 @@
                                         <li><a href="{% url 'Posts:post_detail' post.id %}">Comment</a></li>
                                         {% ifequal user post.author %}
                                         <li><a href="{% url 'Posts:post_update' post.id %}">Modify</a></li>
-                                        <li><a href="{% url 'Posts:post_delete' post.id %}">Delete</a></li>
+                                        <li><a href="{% url 'Posts:post_delete' post.id %}?group={{cur_group.id}}">Delete</a></li>
                                         {% endifequal %}
                                     </ul>
                                 </div>

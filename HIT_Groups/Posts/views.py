@@ -21,14 +21,14 @@ def post_create(request):
                 )
             post.save()
             return HttpResponseRedirect("/?group=" + str(group.id))
-        return HttpResponse("Sorry, you can not post in this group! If you want to do this, please connect to admin.")
+        return HttpResponse("Sorry, you can not post in this group! If you want to do this, please connent")
 
 
 def post_delete(request, post_id):
     post = Post.objects.get(pk=post_id)
     if post.creator() == request.user:
         post.delete()
-    return HttpResponseRedirect("/")
+    return HttpResponseRedirect("/?group=" + request.GET["group"])
 
 
 def post_detail(request, post_id):
