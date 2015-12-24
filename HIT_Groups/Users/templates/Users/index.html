@@ -29,7 +29,7 @@
                     </ul>
                 </div>
             </div>
-            {% if cur_group.id != None %}
+            {% if cur_group.id != None and CAN_POST%}
             <div class="row">
                 <form action="{% url 'Posts:post_create'%}?group={{cur_group.id}}" method="post">
                     {% csrf_token %}

@@ -13,12 +13,14 @@ from HIT_Groups.settings import LOGIN_REDIRECT_URL, LOGOUT_REDIRECT_URL
 def root(request, format=None):
     posts = []
     cur_group = None
+    CAN_POST = True
     groups = []
     if request.user.is_authenticated():
         groups = request.user.get_last_groups()
         if "group" in request.GET:
             cur_group = request.user.get_group_by_id(int(request.GET["group"]))
             posts.extend(cur_group.GetLastPost())
+            CAN_POST = cur_group.CanAddPosts(request.user)
         else:
             for p in groups:
                 posts.extend(p.GetLastPost())
@@ -32,7 +34,7 @@ def root(request, format=None):
         except EmptyPage:
             # If page is out of range (e.g. 9999), deliver last page of results.
             page_posts = paginator.page(paginator.num_pages)
-    return render(request, "Users/index.html", {"groups": groups, "cur_group": cur_group, "posts": page_posts})
+    return render(request, "Users/index.html", {"groups": groups, "cur_group": cur_group, "posts": page_posts, "CAN_POST": CAN_POST})
 
 def logout(request):
     django_logout(request)

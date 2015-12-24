@@ -21,9 +21,7 @@ def post_create(request):
                 )
             post.save()
             return HttpResponseRedirect("/?group=" + str(group.id))
-    else:
-        form = PostForm()
-    return render(request, 'Posts/post_create.html', {'form': form})
+        return HttpResponse("Sorry, you can not post in this group! If you want to do this, please connect to admin.")
 
 
 def post_delete(request, post_id):
