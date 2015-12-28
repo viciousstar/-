@@ -6,19 +6,7 @@
  <form class="form-update" action="{% url 'signup' %}" method="POST">
     {% csrf_token %}
     <h2 class="text-center">HIT Groups</h2>
-    {% if form.errors and not form.non_field_errors %}
-    <p class="errornote">
-    {% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
-    </p>
-    {% endif %}
-
-    {% if form.non_field_errors %}
-    {% for error in form.non_field_errors %}
-    <p class="errornote">
-        {{ error }}
-    </p>
-    {% endfor %}
-    {% endif %}
+    {% include "form_errors.html" %}
     <div class="form-group-lg">
     {{ form.username.errors }}
     {{ form.username.label_tag }}

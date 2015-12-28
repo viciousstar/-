@@ -16,7 +16,7 @@ urlpatterns = [
     url(r"^logout/$", user_views.logout, name="logout"),
     url(r"^signup/$", user_views.signup, name="signup"),
     url(r'^messages/', include('django_messages.urls')),
-    url(r'^feedreader/', include('feedreader.urls', namespace='feedreader')),
+    # url(r'^feedreader/', include('feedreader.urls', namespace='feedreader')),
     url(r"^changepassword/$", views.password_change, {"post_change_redirect": settings.LOGIN_URL}, name="change_password"),
     ]
 

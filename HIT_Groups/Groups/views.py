@@ -61,14 +61,7 @@ def GroupCreate(request):
     if request.method == 'POST':
         form = ContactForm(request.POST, request.FILES)
         if form.is_valid():
-            image = request.FILES["image"]
-            name = form.cleaned_data["name"]
-            description = form.cleaned_data["description"]
-            tag = form.cleaned_data["tag"]
-            permit = form.cleaned_data["permit"]
-            group = Group(image=image, name=name, create_time=timezone.now(), update_time=timezone.now(),
-                          description=description, tag=tag, permit=permit)
-            group.save()
+            group = form.save()
             uag = UsersAndGroups.objects.create(user_id=request.user, group_id=group, user_role='Creator')
             uag.save()
             return HttpResponseRedirect('/groups/')

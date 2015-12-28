@@ -6,21 +6,20 @@
 {% block content %}
 <div id="content" class="container-fluid main">
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-2 nav-groups">
             <ul class="nav nav-pills nav-stacked">
                 <li>
                     <a href="{% url 'root' %}" >All Posts</a>
                 </li>
                 {% if not groups %}
-                    <h4>No groups,go to <a href="{% url 'Groups:GroupsIndex' %}">add groups</a></h4>
+                <h4>No groups,go to <a href="{% url 'Groups:GroupsIndex' %}">add groups</a></h4>
                 {% endif %}
                 {% for group in groups %}
                 <li class="{%if group.id == cur_group.id %} active {%endif%}"><a href="{% url 'root' %}?group={{group.id}}"># {{group.name}}</a></li>
                 {% endfor %}
             </ul>
         </div>
-        <div class="col-md-10" style="border-left-width: 1px;border-left-style: solid;border-left-color: rgb(238, 238, 238);">
-        <div>
+        <div class="col-md-10 post-container">
             {% if cur_group %}
             <div class="row">
                 <div class="dropdown group-dropdown">
@@ -37,11 +36,11 @@
                 <form action="{% url 'Posts:post_create'%}?group={{cur_group.id}}" method="post">
                     {% csrf_token %}
                     <div class="inline-post">
-                            <label for="id_text" class="sr-only"></label>
-                            <textarea name="text" id="id_text" class="form-control" rows="2" placeholder="you can use markdown"></textarea>
-                            <div>
+                        <label for="id_text" class="sr-only"></label>
+                        <textarea name="text" id="id_text" class="form-control" rows="2" placeholder="you can use markdown"></textarea>
+                        <div>
                             <button type="submit" class="btn btn-primary">New Post</button>
-                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -50,17 +49,17 @@
             <div class="row">
                 <div class="post-list">
                     {% if not posts %}
-                        <h4>No posts</h4>
+                    <h4>No posts</h4>
                     {% endif %}
                     {% for post in posts %}
                     {# <hr> #}
                     <div class="row">
-                        <div class="col-md-1">
+                        <div class="col-md-1 post-avatar">
                             <img src="{{ post.author.avatar.url }}" class="avatar" />
                         </div>
-                        <div class="col-md-11" style="width: 95%">
+                        <div class="col-md-11 post-content">
                             <div class="row">
-                                <div class="col-md-11">
+                                <div class="col-md-11 post-meta">
                                     <p class="post-meta"><a href="{% url 'Users:UserUpdate' post.author.id%}">{{post.author.username}}</a></p>
                                     <p class="post-meta">{{post.posted_time}}</p>
                                 </div>
@@ -83,33 +82,29 @@
                         </div>
                     </div>
                     {% endfor %}
-                    <p></p>
                 </div>
             </div>
             <div class="pagination">
                 <span class="step-links">
-                    {% if posts.has_previous %}
-                        {% if cur_group %}
-                        <a href="{{request.get_path}}?group={{cur_group.id}}&page={{ posts.previous_page_number }}">previous</a>
-                        {% else %}
-                        <a href="{{request.get_path}}?page={{ posts.previous_page_number }}">previous</a>
-                        {% endif %}
-                    {% endif %}
-
-                    <span class="current">
-                        Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
-                    </span>
-
-                    {% if posts.has_next %}
-                        {% if cur_group %}
-                        <a href="{{request.get_path}}?group={{cur_group.id}}&page={{ posts.next_page_number }}">next</a>
-                        {% else %}
-                        <a href="{{request.get_path}}?page={{ posts.next_page_number }}">next</a>
-                        {% endif %}
-                    {% endif %}
+                {% if posts.has_previous %}
+                {% if cur_group %}
+                <a href="{{request.get_path}}?group={{cur_group.id}}&page={{ posts.previous_page_number }}">previous</a>
+                {% else %}
+                <a href="{{request.get_path}}?page={{ posts.previous_page_number }}">previous</a>
+                {% endif %}
+                {% endif %}
+                <span class="current">
+                Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
+                </span>
+                {% if posts.has_next %}
+                {% if cur_group %}
+                <a href="{{request.get_path}}?group={{cur_group.id}}&page={{ posts.next_page_number }}">next</a>
+                {% else %}
+                <a href="{{request.get_path}}?page={{ posts.next_page_number }}">next</a>
+                {% endif %}
+                {% endif %}
                 </span>
             </div>
-        </div>
         </div>
     </div>
 </div>

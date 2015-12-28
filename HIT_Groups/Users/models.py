@@ -1,4 +1,5 @@
 from django.db import models
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import AbstractUser
 from Groups.models import Group
 
@@ -60,7 +61,7 @@ class MyUser(AbstractUser):
         return self
 
     def get_group_by_id(self, id):
-        return self.my_groups.get(id=id)
+        return get_object_or_404(self.my_groups, id=id)
 
     def get_last_groups(self):
         return self.my_groups.order_by('-update_time')

@@ -10,7 +10,7 @@ class MyUserForm(forms.ModelForm):
         fields = ["username", "email"]
 
 
-
+# just add email field for django UserCreationForm
 class UserCreationForm(forms.ModelForm):
     """
     A form that creates a user, with no privileges, from the given username and

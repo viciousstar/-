@@ -1,42 +1,32 @@
 {% load staticfiles %}
-{% load i18n staticfiles %}
+{% load i18n %}
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>HIT Groups</title>
-    <!-- Bootstrap -->
-    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
-    <link href="{% static "css/groups.css" %}" rel="stylesheet">
-    <style type="text/css" media="screen">
-        /*for footer*/
-    </style>
-    {% block headblock %}
-    {% endblock headblock %}
-    {# for django-feedreader #}
-    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/ico" />
-    <title>{% block title %}{% endblock %}</title>
-    <script type="text/javascript" src="{% static "js/jquery.min.js" %}"></script>
-    <script type="text/javascript" src="{% static 'js/jquery.dataTables.min.js' %}"></script>
-    {% block extra_head %}{% endblock %}
-</head>
-
-<body>
-    <nav class="navbar navbar-inverse navbar-fixed-top" >
-        <div class="container nav-container">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="{% url 'root' %}">HIT Groups</a>
-            </div>
-            <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="{% url 'Groups:GroupsIndex' %}">Groups</a></li>
-                    <li><a href="{% url 'feedreader:feed_list' %}">News</a></li>
-                    <li><a href="{% url 'messages_inbox' %}">Messages</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+        <title>HIT Groups</title>
+        <!-- Bootstrap -->
+        <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+        <link href="{% static "css/groups.css" %}" rel="stylesheet">
+        <style type="text/css" media="screen">
+        </style>
+        {% block headblock %}
+        {% endblock headblock %}
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top" >
+            <div class="container nav-container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="{% url 'root' %}">HIT Groups</a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a href="{% url 'Groups:GroupsIndex' %}">Groups</a></li>
+                        <li><a href="{% url 'messages_inbox' %}">Messages</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{user.username}} <span class="caret"></span></a>
                             <ul class="dropdown-menu">
@@ -45,30 +35,25 @@
                                 <li><a href="{% url 'logout' %}">Log out</a></li>
                             </ul>
                         </li>
-                </ul>
+                    </ul>
+                </div>
             </div>
+        </nav>
+        <div id="content" class="content">
+            {% block content %}
+            <div class="container">
+                <h1 class="text-center">圣·马家沟男子技校欢迎您</h1>
+            </div>
+            {% endblock content %}
         </div>
-    </nav>
-    {# for  django-feedreader#}
-    <div id="navigation" style="padding-bottom:0.2em; margin:0; width:100%;">
-        {% block nav_path %}{% endblock %}
-    </div>
-    <div id="content" class="content">
-    {% block content %}
-        <div class="container">
-            <h1 class="text-center">圣·马家沟男子技校欢迎您</h1>
-        </div>
-    {% endblock content %}
-    </div>
-    <hr size="1">
-    <footer class="footer">
-      <p>HIT SE project <a href="https://github.com/viciousstar/SE-Project-HIT">HIT Groups</a> by <a href="#">HITer</a>.</p>
-      <p>
-        <a href="#">Back to top</a>
-      </p>
-    </footer>
-    <script src="{% static "js/jquery.min.js" %}"></script>
-    <script src="{% static "js/bootstrap.min.js" %}"></script>
-</body>
-
+        <hr size="1">
+        <footer class="footer">
+            <p>HIT SE project <a href="https://github.com/viciousstar/SE-Project-HIT">HIT Groups</a> by <a href="#">HITer</a>.</p>
+            <p>
+            <a href="#">Back to top</a>
+            </p>
+        </footer>
+        <script src="{% static "js/jquery.min.js" %}"></script>
+        <script src="{% static "js/bootstrap.min.js" %}"></script>
+    </body>
 </html>

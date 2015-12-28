@@ -45,7 +45,7 @@ INSTALLED_APPS = (
     'Posts',
     'django_messages',
     'stronghold',
-    'feedreader',
+    # 'feedreader', not fix bug so delete it
     'pagedown',     #for markdown editor
 
 )
@@ -72,7 +72,6 @@ TEMPLATES = [
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
-                # 'django.core.context_processors.request',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -89,10 +88,10 @@ WSGI_APPLICATION = 'HIT_Groups.wsgi.application'
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+   'default': {
+       'ENGINE': 'django.db.backends.sqlite3',
+       'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+   }
 }
 
 
@@ -114,22 +113,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/djangostatic/'
-# custom own user
-AUTH_USER_MODEL = 'Users.MyUser'
-
-REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': (
-        # "rest_framework.renderers.HTMLFormRenderer",
-        'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',
-    )
-}
-
-# common static
+# STATIC_ROOT = '/djangostatic/' # it is for development
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
+
+# custom own user
+AUTH_USER_MODEL = 'Users.MyUser'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
@@ -144,3 +134,5 @@ STRONGHOLD_DEFAULTS = False
 STRONGHOLD_PUBLIC_NAMED_URLS = ("login",
                                 "signup",
                                 )
+
+PAGENUM = 20

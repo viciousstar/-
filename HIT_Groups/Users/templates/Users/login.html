@@ -2,9 +2,7 @@
 {% load i18n %}
 {% load usertag %}
 <!DOCTYPE html>
-<!-- saved from url=(0038)http://v3.bootcss.com/examples/signin/ -->
 <html lang="zh-CN">
-
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
@@ -31,19 +29,7 @@
         {% endif %}
             {% csrf_token %}
             <h2 class="text-center">HIT Groups</h2>
-            {% if form.errors and not form.non_field_errors %}
-            <p class="errornote">
-            {% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}
-            </p>
-            {% endif %}
-
-            {% if form.non_field_errors %}
-            {% for error in form.non_field_errors %}
-            <p class="errornote">
-                {{ error }}
-            </p>
-            {% endfor %}
-            {% endif %}
+            {% include "form_errors.html" %}
             <div class="form-group-lg">
                 {{ form.username.errors }}
                 {{ form.username.label_tag }}
@@ -54,14 +40,11 @@
                 {{ form.password.label_tag }}
                 {{ form.password|add_attributes:'form-control,required:'}}
             </div>
-                {# <input type="checkbox" value="remember-me"> #}
-                {# <label>Remember me</label> #}
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
             <h4 class="text-center">or <a href="{% url 'signup' %}">Sign up</a></h4>
         </form>
         {% endblock form %}
     </div>
-    <!-- /container -->
 </body>
 
 </html>

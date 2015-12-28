@@ -1,35 +1,41 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import migrations, models
+from django.db import models, migrations
 from django.conf import settings
+import django.utils.timezone
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('Groups', '0004_auto_20151126_2119'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ('Groups', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Post',
+            name='Comment',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
+                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
                 ('text', models.TextField()),
-                ('author', models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='post_author')),
-                ('group', models.ForeignKey(to='Groups.Group', related_name='post_group')),
-                ('starred', models.ManyToManyField(related_name='post_starred', to=settings.AUTH_USER_MODEL)),
-                ('user_like', models.ManyToManyField(related_name='post_user_like', to=settings.AUTH_USER_MODEL)),
-                ('user_mentioned', models.ManyToManyField(related_name='post_user_mentioned', to=settings.AUTH_USER_MODEL)),
+                ('commented_time', models.DateTimeField(default=django.utils.timezone.now)),
+                ('author', models.ForeignKey(related_name='comment_author', to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
-            name='Tag',
+            name='Post',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', primary_key=True, serialize=False, auto_created=True)),
-                ('name', models.CharField(max_length=20)),
+                ('id', models.AutoField(primary_key=True, serialize=False, verbose_name='ID', auto_created=True)),
+                ('text', models.TextField()),
+                ('posted_time', models.DateTimeField(default=django.utils.timezone.now)),
+                ('author', models.ForeignKey(related_name='post_author', to=settings.AUTH_USER_MODEL)),
+                ('group', models.ForeignKey(related_name='post_group', to='Groups.Group')),
             ],
+        ),
+        migrations.AddField(
+            model_name='comment',
+            name='post',
+            field=models.ForeignKey(to='Posts.Post'),
         ),
     ]

@@ -70,13 +70,19 @@ h6, .h6 {
   margin-top: 10px;
 }
 
-.post-list .col-md-1{
+.post-container {
+  border-left-width: 1px;
+  border-left-style: solid;
+  border-left-color: rgb(238, 238, 238);
+}
+
+.post-list .post-avatar{
   padding-left: 0px;
   padding-right: 0px;
   width: 36px;
 }
 
-.post-list .col-md-11{
+.post-list .post-content{
   padding-left: 0px;
   padding-right: 0px;
 }
